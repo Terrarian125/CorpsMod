@@ -149,7 +149,7 @@ namespace CorpsMod.Content.NPCs
 				"Blocky Bones",
 				"Someone's Ribcage",
 				"Underground Blockster",
-				"Darkness"
+				"‚ ‚ ‚ ‚ "
 			};
 		}
 

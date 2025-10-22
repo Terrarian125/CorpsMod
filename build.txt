@@ -1,8 +1,8 @@
-author = TML Team
-displayName = Example Mod
-homepage = https://tmodloader.net/
+author = Team_CC
+displayName = Corps Mod
+homepage = 
 hideCode = false
 hideResources = false
 includeSource = true
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, Old\*
-version = 9999.0
+version = 0.1.0

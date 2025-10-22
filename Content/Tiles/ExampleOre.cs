@@ -95,7 +95,7 @@ namespace CorpsMod.Content.Tiles
 			if (ShiniesIndex != -1) {
 				// Next, we insert our pass directly after the original "Shinies" pass.
 				// ExampleOrePass is a class seen bellow
-				tasks.Insert(ShiniesIndex + 1, new ExampleOrePass("Example Mod Ores", 237.4298f));
+				tasks.Insert(ShiniesIndex + 1, new ExampleOrePass("Corps Mod Ores", 237.4298f));
 			}
 		}
 	}

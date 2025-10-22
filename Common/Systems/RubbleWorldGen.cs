@@ -14,7 +14,7 @@ namespace CorpsMod.Common.Systems
 			int PilesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Piles"));
 
 			if (PilesIndex != -1) {
-				tasks.Insert(PilesIndex + 1, new ExamplePilesPass("Example Mod Piles", 100f));
+				tasks.Insert(PilesIndex + 1, new ExamplePilesPass("Corps Mod Piles", 100f));
 			}
 		}
 	}
@@ -25,7 +25,7 @@ namespace CorpsMod.Common.Systems
 		}
 
 		protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration) {
-			progress.Message = "Example Mod Piles";
+			progress.Message = "Corps Mod Piles";
 
 			int[] tileTypes = [ModContent.TileType<Example1x1RubbleNatural>(), ModContent.TileType<Example2x1RubbleNatural>(), ModContent.TileType<Example3x2RubbleNatural>()];
 

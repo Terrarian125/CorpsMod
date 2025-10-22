@@ -38,7 +38,7 @@ namespace CorpsMod.Content
 
 		public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<ExampleSurfaceBackgroundStyle>();
 
-		public override string DisplayName => "Example ModMenu";
+		public override string DisplayName => "Corps ModMenu";
 
 		public override void OnSelected() {
 			SoundEngine.PlaySound(SoundID.Thunder); // Plays a thunder sound when this ModMenu is selected

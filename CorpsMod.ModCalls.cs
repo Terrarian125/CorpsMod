@@ -11,8 +11,8 @@ namespace CorpsMod
 	// This class extends from the Mod class as seen in CorpsMod.cs. Make sure to extend from the mod class, ": Mod", in your own code if using this file as a template for you mods Mod class.
 	partial class CorpsMod
 	{
-		// The following code allows other mods to "call" Example Mod data.
-		// This allows mod developers to access Example Mod's data without having to set it a reference.
+		// The following code allows other mods to "call" Corps Mod data.
+		// This allows mod developers to access Corps Mod's data without having to set it a reference.
 		// Mod calls are not exposed by default, so it will be up to you to publish appropriate calls for your mod, and what values they return.
 		public override object Call(params object[] args) {
 			// Make sure the call doesn't include anything that could potentially cause exceptions.

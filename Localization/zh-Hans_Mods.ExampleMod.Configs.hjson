@@ -12,7 +12,7 @@ Common: {
 }
 
 CorpsModConfig: {
-	// DisplayName: Example Mod Config
+	// DisplayName: Corps Mod Config
 
 	ExampleWingsToggle: {
 		// Label: Example Wings Toggle

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CorpsMod.Content.Items.Consumables
 {
-	// This is the item used to summon a boss, in this case the modded Minion Boss from Example Mod. For vanilla boss summons, see comments in SetStaticDefaults
+	// This is the item used to summon a boss, in this case the modded Minion Boss from Corps Mod. For vanilla boss summons, see comments in SetStaticDefaults
 	public class MinionBossSummonItem : ModItem
 	{
 		public override void SetStaticDefaults() {
