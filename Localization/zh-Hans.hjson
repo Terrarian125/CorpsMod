@@ -147,6 +147,32 @@ Mods: {
 					}
 				}
 			}
+
+			Cmod_Tester: {
+				// Census.SpawnCondition: Conditions unknown
+
+				TownNPCMood: {
+					// Princess_LovesNPC: I like {NPCName}.
+					// LikeNPC_Princess: I like {NPCName}.
+					// HateNPC: 私は {NPCName} が 大嫌いだ。
+					// DislikeNPC: 私は {NPCName} が 嫌いだ。
+					// LikeNPC: 私は {NPCName} が 好きだ。
+					// LoveNPC: 私は {NPCName} を 愛しているよ。
+					// DislikeBiome: 私は {BiomeName} が 嫌いだ。
+					// LikeBiome: 私は {BiomeName} が 好きだ。
+					// LoveBiome: 私は {BiomeName} を 愛している。
+					// HateCrowded: こんなに混んでいるのは 嫌だよ。
+					// DislikeCrowded: 人混みが嫌いです。
+					// LoveSpace: 沢山のスペースが あるのがいいね。
+					// FarFromHome: 家から遠すぎる。
+					// NoHome: 家を持っていないのが 嫌なんです。
+					// Content: 私は満足しています。
+				}
+
+				// DisplayName: Cmod_ Tester
+				// DeathMessage: Mods.CorpsMod.NPCs.Cmod_Tester.DeathMessage
+				// Upgraded: Mods.CorpsMod.NPCs.Cmod_Tester.Upgraded
+			}
 		}
 
 		Tiles: {
@@ -830,6 +856,11 @@ Mods: {
 			ExampleYoyo: {
 				// DisplayName: Example Yoyo
 				// Tooltip: This is a modded yoyo with normal behavior. It won't receive bad prefixes.
+			}
+
+			Test_Sword: {
+				// DisplayName: テスト用の剣
+				// Tooltip: This is ノコギリ鉈
 			}
 
 			ExampleLightPetItem: {

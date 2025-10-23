@@ -4,6 +4,7 @@
   <PropertyGroup>
     <AssemblyName>CorpsMod</AssemblyName>
     <LangVersion>latest</LangVersion>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Old\**" />
