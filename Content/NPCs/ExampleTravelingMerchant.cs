@@ -1,3 +1,4 @@
+﻿//行商npcのサンプル
 using CorpsMod.Content.Dusts;
 using CorpsMod.Content.EmoteBubbles;
 using CorpsMod.Content.Items;
@@ -26,16 +27,19 @@ namespace CorpsMod.Content.NPCs
 	[AutoloadHead]
 	class ExampleTravelingMerchant : ModNPC
 	{
-		// Time of day for traveler to leave (6PM)
+		//旅行者が出発する時刻（午後6時）
 		public const double despawnTime = 48600.0;
 
 		// the time of day the traveler will spawn (double.MaxValue for no spawn). Saved and loaded with the world in TravelingMerchantSystem
+		// 旅行者が出現する時刻（出現しない場合はdouble.MaxValue）。TravelingMerchantSystemに保存され、ワー​​ルドと共にロードされます。
 		public static double spawnTime = double.MaxValue;
 
 		// The list of items in the traveler's shop. Saved with the world and set when the traveler spawns. Synced by the server to clients in multi player
+		// 旅人のショップにあるアイテムのリスト。ワールドに保存され、旅人がスポーンした際に設定されます。マルチプレイヤーではサーバーからクライアントに同期されます。
 		public readonly static List<Item> shopItems = new();
 
 		// A static instance of the declarative shop, defining all the items which can be brought. Used to create a new inventory when the NPC spawns
+		// 宣言型ショップの静的インスタンス。持ち込めるすべてのアイテムを定義します。NPCがスポーンしたときに新しいインベントリを作成するために使用されます。
 		public static ExampleTravelingMerchantShop Shop;
 
 		private static int ShimmerHeadIndex;
@@ -46,6 +50,8 @@ namespace CorpsMod.Content.NPCs
 			{
 				// Here we despawn the NPC and send a message stating that the NPC has despawned
 				// LegacyMisc.35 is {0) has departed!
+				// ここでNPCをデスポーンし、NPCがデスポーンしたことを通知するメッセージを送信します。
+				// LegacyMisc.35 is {0) が出発しました！
 				if (Main.netMode == NetmodeID.SinglePlayer) {
 					Main.NewText(Language.GetTextValue("LegacyMisc.35", NPC.FullName), 50, 125, 255);
 				}
@@ -64,10 +70,11 @@ namespace CorpsMod.Content.NPCs
 		public override void AddShops() {
 			Shop = new ExampleTravelingMerchantShop(NPC.type);
 
-			// Always bring an ExampleItem
+			// 常に売るアイテム
 			Shop.Add<ExampleItem>();
 
 			// Bring 2 Tools
+			//持ってくる2つのツール
 			Shop.AddPool("Tools", slots: 2)
 				.Add<ExampleDrill>()
 				.Add<ExampleHamaxe>()
@@ -77,6 +84,7 @@ namespace CorpsMod.Content.NPCs
 				.Add<ExamplePickaxe>();
 
 			// Bring 4 Weapons
+			// 4つの武器を持ってくる
 			Shop.AddPool("Weapons", slots: 4)
 				.Add<ExampleSword>()
 				.Add<ExampleShortsword>()
@@ -94,6 +102,7 @@ namespace CorpsMod.Content.NPCs
 				.Add<ExampleYoyo>();
 
 			// Bring 3 Furniture
+			// 3つの家具を持ってくる
 			Shop.AddPool("Furniture", slots: 3)
 				.Add<ExampleLamp>()
 				.Add<ExampleBed>()

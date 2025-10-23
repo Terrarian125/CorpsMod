@@ -1,4 +1,5 @@
-﻿using CorpsMod.Content.Achievements;
+﻿//カエルのnpc
+using CorpsMod.Content.Achievements;
 using Microsoft.Xna.Framework;
 using MonoMod.Cil;
 using System;

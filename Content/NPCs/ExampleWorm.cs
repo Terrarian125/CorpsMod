@@ -1,3 +1,4 @@
+//
 using CorpsMod.Content.Items.Placeable.Banners;
 using CorpsMod.NPCs;
 using Microsoft.Xna.Framework;

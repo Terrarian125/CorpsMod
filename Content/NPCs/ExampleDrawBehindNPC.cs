@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿//サンプルアイテムをもって右クリックすると爆発するNPCの例
+using Terraria;
 using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
