@@ -10,6 +10,7 @@ namespace MyMod.Content.Items
 	public class Test_Sword : ModItem
 	{
 		// The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.MyMod.hjson' file.
+		//// このアイテムの表示名とツールチップは、Localizationファイルで編集できます。
 		public override void SetDefaults()
 		{
 			Item.damage = 50;

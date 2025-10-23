@@ -832,6 +832,11 @@ Mods: {
 				Tooltip: This is a modded yoyo with normal behavior. It won't receive bad prefixes.
 			}
 
+			Test_Sword: {
+				DisplayName: "テスト用の剣"
+				Tooltip: "This is ノコギリ鉈"
+			}
+
 			ExampleLightPetItem: {
 				DisplayName: Annoying Light
 				Tooltip: Summons an annoying light
