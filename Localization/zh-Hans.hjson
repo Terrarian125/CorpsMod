@@ -1239,6 +1239,11 @@ Mods: {
 				// DisplayName: Example Sentry Item
 				// Tooltip: Summons an example sentry to fight for you
 			}
+
+			SawCleaver: {
+				// DisplayName: Saw Cleaver
+				// Tooltip: ""
+			}
 		}
 
 		# Projectile display names mainly show in chat when a player dies from it.
