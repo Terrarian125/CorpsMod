@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CorpsMod.Content.Items.Weapons
 {
@@ -10,19 +11,15 @@ namespace CorpsMod.Content.Items.Weapons
 	{
 		private bool transformed = false; // false=ノコギリ, true=ナタ
 
-		public override void SetStaticDefaults() {
-			//DisplayName.SetDefault("ノコギリ鉈");
-			//Tooltip.SetDefault("右クリックで変形する血塗られた武器");
-		}
-
 		public override void SetDefaults() {
-			SetForm(false); // 初期はノコギリ形態
+			SetForm(false); // 初期形態：ノコギリ
 		}
 
 		private void SetForm(bool nata) {
+			transformed = nata;
+
 			if (nata) {
 				// --- ナタ形態 ---
-				transformed = true;
 				Item.damage = 70;
 				Item.DamageType = DamageClass.Melee;
 				Item.width = 70;
@@ -36,10 +33,12 @@ namespace CorpsMod.Content.Items.Weapons
 				Item.UseSound = SoundID.Item1;
 				Item.autoReuse = true;
 				Item.crit = 4;
+
+				// 攻撃範囲（リーチ）拡大
+				Item.scale = 2.0f;
 			}
 			else {
 				// --- ノコギリ形態 ---
-				transformed = false;
 				Item.damage = 50;
 				Item.DamageType = DamageClass.Melee;
 				Item.width = 40;
@@ -50,55 +49,79 @@ namespace CorpsMod.Content.Items.Weapons
 				Item.useStyle = ItemUseStyleID.Swing;
 				Item.value = Item.buyPrice(silver: 50);
 				Item.rare = ItemRarityID.Blue;
-				Item.UseSound = SoundID.Item71; // シャキン！と鋭い音
+				Item.UseSound = SoundID.Item71;
 				Item.autoReuse = true;
 				Item.crit = 8;
+
+				// 攻撃範囲（リーチ）縮小
+				Item.scale = 1.0f;
 			}
 		}
 
-		public override bool AltFunctionUse(Player player) {
-			// 右クリックを許可
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool CanUseItem(Player player) {
 			if (player.altFunctionUse == 2) {
-				// 右クリックで変形！
 				transformed = !transformed;
 				SetForm(transformed);
 
 				// --- 変形エフェクト ---
-				SoundEngine.PlaySound(SoundID.Item37 with { Pitch = 0.3f }, player.position); // 金属音
-				SoundEngine.PlaySound(SoundID.Thunder with { Volume = 0.7f }, player.position); // 雷音
+				SoundEngine.PlaySound(SoundID.Item37 with { Pitch = 0.3f }, player.position);
+				//SoundEngine.PlaySound(SoundID.Thunder with { Volume = 0.7f }, player.position);
 
 				for (int i = 0; i < 25; i++) {
-					Dust.NewDust(player.position, player.width, player.height, DustID.Electric, Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5), 150, default, 1.5f);
-					Dust.NewDust(player.position, player.width, player.height, DustID.Smoke, Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2));
+					Dust.NewDust(player.position, player.width, player.height, DustID.Electric,
+						Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5), 150, default, 1.5f);
+					Dust.NewDust(player.position, player.width, player.height, DustID.Smoke,
+						Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2));
 				}
 
-				for (int i = 0; i < 3; i++) {
-					Vector2 lightningPos = player.Center + new Vector2(Main.rand.Next(-20, 20), -50);
-					Dust.NewDust(lightningPos, 10, 10, DustID.GoldFlame, 0, 5f);
-				}
+				CombatText.NewText(player.getRect(), Color.Crimson,
+					transformed ? "変形：ナタ形態" : "変形：ノコギリ形態");
 
-				CombatText.NewText(player.getRect(), Color.Crimson, transformed ? "変形：ナタ形態" : "変形：ノコギリ形態");
-
-				return false; // 右クリック攻撃はしない
+				return false;
 			}
-
 			return base.CanUseItem(player);
 		}
 
 		public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) {
-			if (!transformed) {
-				// ノコギリ形態のみ出血付与（5秒）
-				target.AddBuff(BuffID.Bleeding, 300);
-				CombatText.NewText(target.getRect(), Color.DarkRed, "出血！");
-			}
+			if (!transformed)
+				target.AddBuff(BuffID.Bleeding, 300); // ノコギリ形態のみ出血
 		}
 
-	public override void AddRecipes()
-		{
+		// === 見た目を切り替える部分 ===
+		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame,
+			Color drawColor, Color itemColor, Vector2 origin, float scale) {
+
+			string path = transformed
+				? "CorpsMod/Content/Items/Weapons/SawCleaver_Nata"
+				: "CorpsMod/Content/Items/Weapons/SawCleaver_Saw";
+
+			Texture2D tex = ModContent.Request<Texture2D>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			if (tex == null)
+				return true;
+
+			spriteBatch.Draw(tex, position, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor,
+			ref float rotation, ref float scale, int whoAmI) {
+
+			string path = transformed
+				? "CorpsMod/Content/Items/Weapons/SawCleaver_Nata"
+				: "CorpsMod/Content/Items/Weapons/SawCleaver_Saw";
+
+			Texture2D tex = ModContent.Request<Texture2D>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			if (tex == null)
+				return true;
+
+			Vector2 drawPos = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height / 2);
+			spriteBatch.Draw(tex, drawPos, null, lightColor, rotation, tex.Size() / 2f, scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override void AddRecipes() {
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.DirtBlock, 1);
 			recipe.AddTile(TileID.WorkBenches);
