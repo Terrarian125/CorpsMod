@@ -15,6 +15,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
+
 namespace CorpsMod.Content.NPCs
 {
 	/// <summary>
@@ -195,51 +196,52 @@ namespace CorpsMod.Content.NPCs
 		}
 
 		public override void AddShops() {
-			// カスタムのExampleTravelingMerchantShopを使用します
-			Shop = new ExampleTravelingMerchantShop(NPC.type);
+			NPCShop shop = new NPCShop(Type, "Shop");
 
 			// 常に売るアイテム
-			Shop.Add(ItemID.Obsidian);
+			shop.Add(ItemID.Obsidian);
 
-			//宝石全種からランダムに3つ持ってくる
-			Shop.AddPool("Gems", slots: 3)
-				.Add(ItemID.Amethyst)
-				.Add(ItemID.Topaz)
-				.Add(ItemID.Sapphire)
-				.Add(ItemID.Emerald)
-				.Add(ItemID.Ruby)
-				.Add(ItemID.Diamond)
-				.Add(ItemID.Amber); // アンバーも宝石として含めます
+			// 宝石系ランダム販売（AddPoolが使えないので、代替でランダム化）
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Amethyst);
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Topaz);
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Sapphire);
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Emerald);
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Ruby);
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Diamond);
+			if (Main.rand.NextBool(3))
+				shop.Add(ItemID.Amber);
 
-			//ノーマルモードの鉱石からランダムに3つ持ってくる
-			Shop.AddPool("NormalModeOres", slots: 3)
-				.Add(ItemID.CopperOre)
-				.Add(ItemID.TinOre)
-				.Add(ItemID.IronOre)
-				.Add(ItemID.LeadOre)
-				.Add(ItemID.SilverOre)
-				.Add(ItemID.TungstenOre)
-				.Add(ItemID.GoldOre)
-				.Add(ItemID.PlatinumOre);
+			// ノーマルモード鉱石
+			if (!Main.hardMode) {
+				shop.Add(ItemID.CopperOre);
+				shop.Add(ItemID.IronOre);
+				shop.Add(ItemID.SilverOre);
+				shop.Add(ItemID.GoldOre);
+			}
 
-			//ハードモード限定でハードモードの鉱石からランダムに3つ持ってくる
-			Shop.AddPool("HardmodeOres", slots: 3, Condition.Hardmode)
-				.Add(ItemID.CobaltOre)
-				.Add(ItemID.PalladiumOre)
-				.Add(ItemID.MythrilOre)
-				.Add(ItemID.OrichalcumOre)
-				.Add(ItemID.AdamantiteOre)
-				.Add(ItemID.TitaniumOre);
+			// ハードモード鉱石
+			if (Main.hardMode) {
+				shop.Add(ItemID.CobaltOre);
+				shop.Add(ItemID.MythrilOre);
+				shop.Add(ItemID.AdamantiteOre);
+			}
 
-			// 元のサンプルにあったカテゴリを削除したため、ここにはShop.Register()のみ残します。
-			Shop.Register();
+			// 登録
+			shop.Register();
 		}
+
 
 		// NPCが倒されたときにドロップするアイテムを変更または追加するために使用されます。
 		public override void ModifyNPCLoot(NPCLoot npcLoot) {
 			// 金床 (Anvil) を100%の確率でドロップするように追加します。
 			// ItemDropRule.Common(アイテムID, 確率の分母, 最小スタック数, 最大スタック数)
-			npcLoot.Add(Terraria.GameContent.ItemDropRules.ItemDropRule.Common(ItemID.Anvil, 1, 1, 1));
+			npcLoot.Add(Terraria.GameContent.ItemDropRules.ItemDropRule.Common(ItemID.IronAnvil, 1, 1, 1));
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback) {

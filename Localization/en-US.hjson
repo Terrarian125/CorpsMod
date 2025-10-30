@@ -860,8 +860,7 @@ Mods: {
 
 			SandSword: {
 				DisplayName: 砂の執行剣
-				Tooltip:友好NPCに有効
-				「砂ブロックをなめるとしにます」
+				Tooltip: 友好NPCに有効「砂ブロックをなめるとしにます」
 			}
 
 			ExampleLightPetItem: {
