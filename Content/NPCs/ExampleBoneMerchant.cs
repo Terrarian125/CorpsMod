@@ -235,6 +235,13 @@ namespace CorpsMod.Content.NPCs
 			Shop.Register();
 		}
 
+		// NPCが倒されたときにドロップするアイテムを変更または追加するために使用されます。
+		public override void ModifyNPCLoot(NPCLoot npcLoot) {
+			// 金床 (Anvil) を100%の確率でドロップするように追加します。
+			// ItemDropRule.Common(アイテムID, 確率の分母, 最小スタック数, 最大スタック数)
+			npcLoot.Add(Terraria.GameContent.ItemDropRules.ItemDropRule.Common(ItemID.Anvil, 1, 1, 1));
+		}
+
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
 			damage = 20;
 			knockback = 2f;
