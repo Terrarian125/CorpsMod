@@ -99,7 +99,7 @@ namespace CorpsMod.Content.NPCs
 					}
 					else {
 						state = TalkState.Challenge;
-						Main.npcChatText = "挑戦したい相手を選べ！";
+						Main.npcChatText = "挑戦するのか？";
 					}
 					break;
 
@@ -118,22 +118,30 @@ namespace CorpsMod.Content.NPCs
 
 		private string GetGuideLikeHint() {
 			if (Main.bloodMoon)
-				return "血の月だ…安全な場所に隠れろ。";
+				return "血だまりで釣りをしたら何が釣れるんだろうね";
 			if (!Main.dayTime)
-				return "夜は危険だ。たいまつを持って出歩け。";
+				return "夜だ、君は寝ないのかい？";
 			if (Main.dayTime && Main.eclipse)
-				return "日食の日は強敵が現れる。油断するな！";
-			return "ようこそ！この世界の冒険は始まったばかりだ。";
+				return "日食の日は強敵が現れる…稼ぎ時でもある";
+			return "やあ、何か買うかい？それとも売る？";
 		}
 
 		public override void AddShops() {
 			var npcShop = new NPCShop(Type, ShopName)
+
+				// 既存の基本アイテム
 				.Add(ItemID.Wood)
 				.Add(ItemID.Torch)
 				.Add(ItemID.HealingPotion)
 				.Add(ItemID.Lens)
 				.Add(ItemID.FallenStar)
-				.Add(ItemID.Gel);
+				.Add(ItemID.Gel)
+
+				// 🛡️ 大理石洞窟の敵ドロップアイテム
+				// グラディウス（剣）
+				.Add(ItemID.Gladius, new ItemDropRule.AlwaysDrop(), Item.buyPrice(silver: 50))
+				// 投げやり（消費型武器）
+				.Add(ItemID.Javelin, new ItemDropRule.AlwaysDrop(), Item.buyPrice(copper: 50), 50, 200); // 1本50銅、50本から200本を販売
 			npcShop.Register();
 		}
 

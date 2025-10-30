@@ -858,9 +858,10 @@ Mods: {
 				Tooltip: This is a modded yoyo with normal behavior. It won't receive bad prefixes.
 			}
 
-			Test_Sword: {
-				DisplayName: テスト用の剣
-				Tooltip: This is ノコギリ鉈
+			SandSword: {
+				DisplayName: 砂の執行剣
+				Tooltip:友好NPCに有効
+				「砂ブロックをなめるとしにます」
 			}
 
 			ExampleLightPetItem: {

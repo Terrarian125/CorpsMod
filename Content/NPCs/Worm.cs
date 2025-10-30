@@ -11,15 +11,15 @@ namespace CorpsMod.NPCs
 	public enum WormSegmentType
 	{
 		/// <summary>
-		/// The head segment for the worm.  Only one "head" is considered to be active for any given worm
+		/// ワームの頭部セグメント。どのワームにも「頭」は1つだけ存在します。
 		/// </summary>
 		Head,
 		/// <summary>
-		/// The body segment.  Follows the segment in front of it
+		/// 胴体セグメント。前のセグメントに追従します。
 		/// </summary>
 		Body,
 		/// <summary>
-		/// The tail segment.  Has the same AI as the body segments.  Only one "tail" is considered to be active for any given worm
+		/// 尻尾セグメント。胴体セグメントと同じAIを持ちます。どのワームにも「尻尾」は1つだけ存在します。
 		/// </summary>
 		Tail
 	}
