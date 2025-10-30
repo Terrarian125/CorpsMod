@@ -41,22 +41,22 @@ namespace CorpsMod.Content.Items.Weapons
 			// 敵NPC (target.friendly が false の場合) にヒットした場合は何もしません。
 		}
 
-		// プレイヤーに対するツールチップ（説明文）の追加
-		public override void ModifyTooltips(List<TooltipLine> tooltips) {
-			tooltips.Add(new TooltipLine(Mod, "FriendlyKiller", "町のNPCにのみダメージを与える") {
-				OverrideColor = Color.Red // 説明文を赤色にする
-			});
-			tooltips.Add(new TooltipLine(Mod, "InstaKill", "即死級ダメージ") {
-				OverrideColor = Color.Red
-			});
-		}
+		//// プレイヤーに対するツールチップ（説明文）の追加
+		//public override void ModifyTooltips(List<TooltipLine> tooltips) {
+		//	tooltips.Add(new TooltipLine(Mod, "FriendlyKiller", "町のNPCにのみダメージを与える") {
+		//		OverrideColor = Color.Red // 説明文を赤色にする
+		//	});
+		//	tooltips.Add(new TooltipLine(Mod, "InstaKill", "即死級ダメージ") {
+		//		OverrideColor = Color.Red
+		//	});
+		//}
 
 		// 敵NPCに対してダメージを与えないようにするフック
 		// townNPCs (町のNPC) は friendly=true のため、このチェックは主に敵NPCを無効化するために機能します。
 		public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) {
 			// ターゲットが友好的（friendly）ではない場合（つまり敵の場合）、ダメージをゼロにします。
 			if (!target.friendly) {
-				modifiers.FinalDamage *= 0;
+				modifiers.FinalDamage *= 1;
 			}
 		}
 
