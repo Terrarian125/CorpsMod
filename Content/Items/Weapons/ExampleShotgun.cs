@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -9,60 +9,79 @@ namespace CorpsMod.Content.Items.Weapons
 	public class ExampleShotgun : ModItem
 	{
 		public override void SetDefaults() {
-			// Modders can use Item.DefaultToRangedWeapon to quickly set many common properties, such as: useTime, useAnimation, useStyle, autoReuse, DamageType, shoot, shootSpeed, useAmmo, and noMelee. These are all shown individually here for teaching purposes.
+			// Mod開発者は、Item.DefaultToRangedWeapon を使用して、useTime、useAnimation、useStyle、autoReuse、DamageType、shoot、shootSpeed、useAmmo、noMeleeなど、多くの共通プロパティを素早く設定できます。ここでは、学習目的のためにこれらをすべて個別に示しています。
 
-			// Common Properties
-			Item.width = 44; // Hitbox width of the item.
-			Item.height = 18; // Hitbox height of the item.
-			Item.rare = ItemRarityID.Green; // The color that the item's name will be in-game.
+			// 共通プロパティ
+			Item.width = 44; // アイテムの当たり判定の幅。
+			Item.height = 18; // アイテムの当たり判定の高さ。
+			Item.rare = ItemRarityID.Green; // ゲーム内でのアイテム名の色。
 
-			// Use Properties
-			Item.useTime = 55; // The item's use time in ticks (60 ticks == 1 second.)
-			Item.useAnimation = 55; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-			Item.useStyle = ItemUseStyleID.Shoot; // How you use the item (swinging, holding out, etc.)
-			Item.autoReuse = true; // Whether or not you can hold click to automatically use it again.
-			Item.UseSound = SoundID.Item36; // The sound that this item plays when used.
+			// 使用プロパティ
+			Item.useTime = 55; // アイテムの使用時間（ティック単位、60ティック＝1秒）。
+			Item.useAnimation = 55; // アイテムの使用アニメーションの長さ（ティック単位、60ティック＝1秒）。
+			Item.useStyle = ItemUseStyleID.Shoot; // アイテムの使用方法（スイング、構えなど）。
+			Item.autoReuse = true; // クリックを押し続けたときに自動的に再使用するかどうか。
+			Item.UseSound = SoundID.Item36; // 使用時に再生される音（ショットガンの音）。
 
-			// Weapon Properties
-			Item.DamageType = DamageClass.Ranged; // Sets the damage type to ranged.
-			Item.damage = 10; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
-			Item.knockBack = 6f; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-			Item.noMelee = true; // So the item's animation doesn't do damage.
+			// 武器プロパティ
+			Item.DamageType = DamageClass.Ranged; // ダメージタイプを遠距離に設定。
+			Item.damage = 10; // アイテムのダメージ。この武器が発射する投射物は、これと使用された弾薬のダメージが合計されます。
+			Item.knockBack = 6f; // アイテムのノックバック。この武器が発射する投射物は、これと使用された弾薬のノックバックが合計されます。
+			Item.noMelee = true; // アイテムのアニメーションがダメージを与えないようにする。（銃自体での近接ダメージを無効化）
 
-			// Gun Properties
-			Item.shoot = ProjectileID.PurificationPowder; // For some reason, all the guns in the vanilla source have this.
-			Item.shootSpeed = 10f; // The speed of the projectile (measured in pixels per frame.)
-			Item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Ammo IDs are magic numbers that usually correspond to the item id of one item that most commonly represent the ammo type.
+			// 銃プロパティ
+			Item.shoot = ProjectileID.PurificationPowder; // なぜか、バニラのソース内のすべての銃はこの投射物IDになっています。（※実際には下のShootフックで上書きされるため、ここでは何でも良いことが多い）
+			Item.shootSpeed = 10f; // 投射物の速度（フレームあたりのピクセル数で測定）。
+			Item.useAmmo = AmmoID.Bullet; // この武器が使用する弾薬アイテムの「弾薬ID」。弾薬IDは通常、その弾薬タイプを最も一般的に表すアイテムIDに対応するマジックナンバーです。
 		}
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-			const int NumProjectiles = 8; // The number of projectiles that this gun will shoot.
+			const int NumProjectiles = 8; // この銃が発射する投射物の数。
 
 			for (int i = 0; i < NumProjectiles; i++) {
-				// Rotate the velocity randomly by 30 degrees at max.
+				// 速度を最大30度（コードでは15度）ランダムに回転させます。（分散表現）
 				Vector2 newVelocity = velocity.RotatedByRandom(MathHelper.ToRadians(15));
 
-				// Decrease velocity randomly for nicer visuals.
+				// より見栄えを良くするために、速度をランダムに減少させます。（散らばり）
 				newVelocity *= 1f - Main.rand.NextFloat(0.3f);
 
-				// Create a projectile.
+				// 投射物を作成します。
 				Projectile.NewProjectileDirect(source, position, newVelocity, type, damage, knockback, player.whoAmI);
 			}
 
-			return false; // Return false because we don't want tModLoader to shoot projectile
+			return false; // tModLoader に投射物（Item.shootで設定したPurificationPowder）を発射してほしくないので、false を返します。
 		}
 
-		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
+		// レシピ作成の詳細については、Content/ExampleRecipes.cs を参照してください。
 		public override void AddRecipes() {
 			CreateRecipe()
-				.AddIngredient<ExampleItem>()
-				.AddTile<Tiles.Furniture.ExampleWorkbench>()
+				.AddIngredient<ExampleItem>() // ExampleItem (カスタムアイテム) を必要とする
+				.AddTile<Tiles.Furniture.ExampleWorkbench>() // ExampleWorkbench (カスタム作業台) で作成する
 				.Register();
 		}
 
-		// This method lets you adjust position of the gun in the player's hands. Play with these values until it looks good with your graphics.
+		// このメソッドを使用すると、プレイヤーの手の中での銃の位置を調整できます。グラフィックと見栄えが良くなるまで、これらの値を調整してください。
 		public override Vector2? HoldoutOffset() {
 			return new Vector2(-2f, -2f);
 		}
 	}
 }
+
+/*---
+
+### 🚀 主な動作とショットガンとしての特徴
+
+この Mod アイテムは、特に **`Shoot` メソッド**によってショットガンとして機能しています。
+
+1.  **基本設定**:
+    ***遠距離武器 * *(`DamageClass.Ranged`) として設定され、**弾薬** (`AmmoID.Bullet`) を使用します。
+    * `useTime` と `useAnimation` が **55** と長く設定されており、発射速度が遅い重い武器であることを示しています。
+
+2.  **散弾（ペレット）の発射**:
+    * `Shoot` メソッド内で、**8個の投射物** (`NumProjectiles = 8`) を発射するループが実行されます。
+    * 各投射物の速度 (`newVelocity`) は、**ランダムに角度が回転**し、**ランダムに速度が減少**させられます。これにより、ショットガン特有の**広範囲に散らばる散弾**が再現されます。
+    * `return false;` を使用することで、`Item.shoot` で設定されたデフォルトの投射物（PurificationPowder）が発射されるのをキャンセルし、カスタムの散弾のみを発射させています。
+
+3.  **構え位置の調整**:
+    * `HoldoutOffset()` メソッドは、プレイヤーが武器を構えたときに、スプライトが手に持たれる位置を微調整するために使われます。
+	*/

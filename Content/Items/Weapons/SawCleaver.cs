@@ -10,10 +10,10 @@ namespace CorpsMod.Content.Items.Weapons
 	{
 		private bool transformed = false; // false=ノコギリ, true=ナタ
 
-		public override void SetStaticDefaults() {
-			//DisplayName.SetDefault("ノコギリ鉈");
-			//Tooltip.SetDefault("右クリックで変形する血塗られた武器");
-		}
+		//public override void SetStaticDefaults() {
+		//	//DisplayName.SetDefault("ノコギリ鉈");
+		//	//Tooltip.SetDefault("右クリックで変形する血塗られた武器");
+		//}
 
 		public override void SetDefaults() {
 			SetForm(false); // 初期はノコギリ形態
