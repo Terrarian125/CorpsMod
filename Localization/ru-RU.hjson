@@ -1244,6 +1244,11 @@ Mods: {
 				// DisplayName: Saw Cleaver
 				// Tooltip: ""
 			}
+
+			KiltSword: {
+				// DisplayName: Kilt Sword
+				// Tooltip: ""
+			}
 		}
 
 		# Projectile display names mainly show in chat when a player dies from it.
