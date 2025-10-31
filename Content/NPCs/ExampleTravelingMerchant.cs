@@ -300,10 +300,7 @@ namespace CorpsMod.Content.NPCs
 
 		public override List<string> SetNPCNameList() {
 			return new List<string>() {
-				"Someone Else",
-				"Somebody Else",
-				"Blockster",
-				"Colorful"
+				"キルト"
 			};
 		}
 
