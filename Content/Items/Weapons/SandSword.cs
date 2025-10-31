@@ -9,6 +9,7 @@ namespace CorpsMod.Content.Items.Weapons
 {
 	/// <summary>
 	/// 友好NPCのみに大ダメージを与える、即死級の剣の例。
+	/// 
 	/// </summary>
 	public class SandSword : ModItem
 	{
