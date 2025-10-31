@@ -281,10 +281,10 @@ namespace CorpsMod.Content.NPCs
 
 		public override void DrawTownAttackGun(ref Texture2D item, ref Rectangle itemFrame, ref float scale, ref int horizontalHoldoutOffset) {
 			if (!NPC.IsShimmerVariant) {
-				// 既存のアイテムを使用する場合は、このアプローチを使用します
-				int itemType = ModContent.ItemType<ExampleCustomAmmoGun>();
-				Main.GetItemDrawFrame(itemType, out item, out itemFrame);
-				horizontalHoldoutOffset = (int)Main.DrawPlayerItemPos(1f, itemType).X - 12;
+				//// 既存のアイテムを使用する場合は、このアプローチを使用します
+				//int itemType = ModContent.ItemType<ExampleCustomAmmoGun>();
+				//Main.GetItemDrawFrame(itemType, out item, out itemFrame);
+				//horizontalHoldoutOffset = (int)Main.DrawPlayerItemPos(1f, itemType).X - 12;
 			}
 			else {
 				// このテクスチャは実際には既存のアイテムではありませんが、使用できます。
