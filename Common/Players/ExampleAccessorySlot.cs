@@ -1,37 +1,37 @@
-﻿using CorpsMod.Common.Configs;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
+﻿using CorpsMod.Common.Configs; // CorpsMod.Common.Configs を使用
+using Microsoft.Xna.Framework; // Microsoft.Xna.Framework を使用
+using Terraria; // Terraria を使用
+using Terraria.ID; // Terraria.ID を使用
+using Terraria.Localization; // Terraria.Localization を使用
+using Terraria.ModLoader; // Terraria.ModLoader を使用
 
 namespace CorpsMod.Common.Players
 {
 	public class CorpsModAccessorySlot1 : ModAccessorySlot
 	{
-		// If the class is empty, everything will default to a basic vanilla slot.
+		// クラスが空の場合、すべては基本的なバニラスロットにデフォルト設定されます。
 	}
 
 	public class ExampleCustomLocationAndTextureSlot : ModAccessorySlot
 	{
-		// We will place the slot to be at the center of the map, making the decision not to follow the internal UI handling
+		// スロットをマップの中央に配置します。内部のUI処理には従わないという決定です。
 		public override Vector2? CustomLocation => new Vector2(Main.screenWidth / 2, 3 * Main.screenHeight / 4);
 
-		// We will draw the vanity slot when there's a dye
+		// 染料がある場合にバニティスロットを描画します
 		public override bool DrawVanitySlot => !DyeItem.IsAir;
 
-		//     We will use our 'custom' textures
-		// Background Textures -> In general, you can use most of the existing vanilla ones to get different colors
-		public override string VanityBackgroundTexture => "Terraria/Images/Inventory_Back14"; // yellow
-		public override string FunctionalBackgroundTexture => "Terraria/Images/Inventory_Back7"; // pale blue
-		public override string DyeBackgroundTexture => "Terraria/Images/Inventory_Back13"; // white. Since it is white, the color assigned in BackgroundDrawColor will be the exact color it appears as.
+		// 'カスタム'テクスチャを使用します
+		// 背景テクスチャ -> 一般的に、既存のバニラテクスチャのほとんどを使用して異なる色を得ることができます
+		public override string VanityBackgroundTexture => "Terraria/Images/Inventory_Back14"; // 黄色
+		public override string FunctionalBackgroundTexture => "Terraria/Images/Inventory_Back7"; // 薄い青
+		public override string DyeBackgroundTexture => "Terraria/Images/Inventory_Back13"; // 白。白なので、BackgroundDrawColorで割り当てられた色がそのまま表示される色になります。
 
-		// Icon textures. Nominal image size is 32x32. Piggy bank is 16x24 but it still works as it's drawn centered.
+		// アイコンテクスチャ。標準的な画像サイズは32x32です。貯金箱（Piggy bank）は16x24ですが、中央に描画されるため機能します。
 		public override string VanityTexture => "Terraria/Images/Item_" + ItemID.PiggyBank;
 
-		// We will keep it hidden most of the time so that it isn't an intrusive example
+		// 邪魔にならない例として、ほとんどの時間非表示にします
 		public override bool IsHidden() {
-			return IsEmpty; // Only show when it contains an item, items can end up in functional slots via quick swap (right click accessory)
+			return IsEmpty; // アイテムが含まれている場合にのみ表示します。クイックスワップ（アクセサリーの右クリック）により、機能スロットにアイテムが入ることがあります。
 		}
 
 		public override void BackgroundDrawColor(AccessorySlotType context, ref Color color) {
@@ -46,8 +46,8 @@ namespace CorpsMod.Common.Players
 		public static LocalizedText WingsText { get; private set; }
 		public static LocalizedText WingsDyeText { get; private set; }
 
-		// This slot can toggle between supporting loadouts and not supporting loadouts. By not supporting loadouts, a player would only need to craft a single Wing instead of one for each loadout they plan to switch between.
-		// This setting must be server-side and requires a reload if changed.
+		// このスロットは、ロードアウトのサポート有無を切り替えることができます。ロードアウトをサポートしないことにより、プレイヤーは切り替えを計画している各ロードアウトに対して1つではなく、単一の翼をクラフトするだけで済みます。
+		// この設定はサーバー側である必要があり、変更された場合はリロードが必要です。
 		public override bool HasEquipmentLoadoutSupport => ModContent.GetInstance<CorpsModConfig>().WingSlotLoadoutSupportToggle;
 
 		public override void SetupContent() {
@@ -56,38 +56,38 @@ namespace CorpsMod.Common.Players
 		}
 
 		public override bool CanAcceptItem(Item checkItem, AccessorySlotType context) {
-			if (checkItem.wingSlot > 0) // if is Wing, then can go in slot
+			if (checkItem.wingSlot > 0) // 翼（Wing）の場合、スロットに入れられます
 				return true;
 
-			return false; // Otherwise nothing in slot
+			return false; // それ以外はスロットには入れられません
 		}
 
-		// Designates our slot to be a priority for putting wings in to. NOTE: use ItemLoader.CanEquipAccessory if aiming for restricting other slots from having wings!
+		// 翼を入れるための優先スロットとして指定します。注意：他のスロットが翼を持つことを制限したい場合は、ItemLoader.CanEquipAccessory を使用してください！
 		public override bool ModifyDefaultSwapSlot(Item item, int accSlotToSwapTo) {
-			if (item.wingSlot > 0) // If is Wing, then we want to prioritize it to go in to our slot.
+			if (item.wingSlot > 0) // 翼の場合、このスロットに入れることを優先したいです。
 				return true;
 
 			return false;
 		}
 
 		public override bool IsEnabled() {
-			if (Player.armor[0].headSlot >= 0) // if player is wearing a helmet, because flight safety
-				return true; // Then can use Slot
+			if (Player.armor[0].headSlot >= 0) // プレイヤーがヘルメットを着用している場合（飛行の安全性のため）
+				return true; // スロットを使用できます
 
-			return false; // Can't use slot
+			return false; // スロットを使用できません
 		}
 
-		// Overrides the default behavior where a disabled accessory slot will allow retrieve items if it contains items
+		// 無効化されたアクセサリースロットにアイテムが含まれている場合にアイテムの取り出しを許可するというデフォルトの動作を上書きします
 		public override bool IsVisibleWhenNotEnabled() {
-			return false; // We set to false to just not display if not Enabled. NOTE: this does not affect behavior when mod is unloaded!
+			return false; // 有効化されていない場合は表示しないように設定します。注意：これはModがアンロードされた場合の動作には影響しません！
 		}
 
-		// Icon textures. Nominal image size is 32x32. Will be centered on the slot.
+		// アイコンテクスチャ。標準的な画像サイズは32x32です。スロットの中央に配置されます。
 		public override string FunctionalTexture => "Terraria/Images/Item_" + ItemID.CreativeWings;
 
-		// Can be used to modify stuff while the Mouse is hovering over the slot.
+		// マウスがスロットの上にホバーしている間に、様々なものを変更するために使用できます。
 		public override void OnMouseHover(AccessorySlotType context) {
-			// We will modify the hover text while an item is not in the slot, so that it says "Wings".
+			// スロットにアイテムがない間、ホバーテキストが「Wings」と表示されるように変更します。
 			switch (context) {
 				case AccessorySlotType.FunctionalSlot:
 				case AccessorySlotType.VanitySlot:

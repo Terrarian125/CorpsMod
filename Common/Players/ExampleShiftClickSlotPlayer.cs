@@ -1,40 +1,40 @@
-﻿using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.UI;
+﻿//using Terraria; // Terraria を使用
+//using Terraria.Audio; // Terraria.Audio を使用
+//using Terraria.ID; // Terraria.ID を使用
+//using Terraria.ModLoader; // Terraria.ModLoader を使用
+//using Terraria.UI; // Terraria.UI を使用
 
-namespace CorpsMod.Common.Players
-{
-	// If we hover the cursor over a gel, the cursor style will change.
-	// If we shift-click it, it changes its color and rarity.
-	// See GelGlobalItem.cs as well, we add a tooltip line for gel to indicate what will happen
-	public class ExampleShiftClickSlotPlayer : ModPlayer
-	{
-		public override bool ShiftClickSlot(Item[] inventory, int context, int slot) {
-			// Apply our changes if this item is in inventory and is gel
-			if (context == ItemSlot.Context.InventoryItem && inventory[slot].type == ItemID.Gel) {
-				inventory[slot].color = Main.DiscoColor; // Change the color of the item into a "random" color
-				inventory[slot].rare = Main.rand.Next(ItemRarityID.Count); // Random rarity
-				SoundEngine.PlaySound(SoundID.Item4); // Play mana crystal using sound
+//namespace CorpsMod.Common.Players
+//{
+//	// カーソルをジェルに重ねると、カーソルスタイルが変わります。
+//	// Shiftキーを押しながらクリックすると、その色とレア度が変わります。
+//	// GelGlobalItem.cs も参照してください。何が起こるかを示すツールチップ行をジェルに追加しています。
+//	public class ExampleShiftClickSlotPlayer : ModPlayer
+//	{
+//		public override bool ShiftClickSlot(Item[] inventory, int context, int slot) {
+//			// このアイテムがインベントリ内にあり、ジェルである場合に、変更を適用します
+//			if (context == ItemSlot.Context.InventoryItem && inventory[slot].type == ItemID.Gel) {
+//				inventory[slot].color = Main.DiscoColor; // アイテムの色を「ランダムな」色に変更します
+//				inventory[slot].rare = Main.rand.Next(ItemRarityID.Count); // レア度をランダムにします
+//				SoundEngine.PlaySound(SoundID.Item4); // マナクリスタル使用時の効果音を再生します
 
-				// Block vanilla code so the item will not be picked up when it is clicked.
-				return true;
-			}
-			return base.ShiftClickSlot(inventory, context, slot);
-		}
+//				// バニラのコードをブロックし、クリックされたときにアイテムが拾われないようにします。
+//				return true;
+//			}
+//			return base.ShiftClickSlot(inventory, context, slot);
+//		}
 
-		// Here we override the cursor style
-		public override bool HoverSlot(Item[] inventory, int context, int slot) {
-			// Apply our changes if this item is in inventory and is gel
-			if (context == ItemSlot.Context.InventoryItem && inventory[slot].type == ItemID.Gel) {
-				// If player is holding shift, use FavoriteStar texture to indicate that a special action will be performed
-				if (ItemSlot.ShiftInUse) {
-					Main.cursorOverride = CursorOverrideID.FavoriteStar;
-					return true; // return true to prevent other things from overriding cursor
-				}
-			}
-			return base.HoverSlot(inventory, context, slot);
-		}
-	}
-}
+//		// ここでカーソルスタイルをオーバーライドします
+//		public override bool HoverSlot(Item[] inventory, int context, int slot) {
+//			// このアイテムがインベントリ内にあり、ジェルである場合に、変更を適用します
+//			if (context == ItemSlot.Context.InventoryItem && inventory[slot].type == ItemID.Gel) {
+//				// プレイヤーがShiftキーを押している場合、特別なアクションが実行されることを示すためにFavoriteStar（お気に入りスター）のテクスチャを使用します
+//				if (ItemSlot.ShiftInUse) {
+//					Main.cursorOverride = CursorOverrideID.FavoriteStar;
+//					return true; // カーソルをオーバーライドする他のものを防ぐために true を返します
+//				}
+//			}
+//			return base.HoverSlot(inventory, context, slot);
+//		}
+//	}
+//}

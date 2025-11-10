@@ -1,167 +1,172 @@
-﻿using CorpsMod.Content.Items.Placeable;
-using CorpsMod.Content.TileEntities;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent;
-using Terraria.GameContent.ObjectInteractions;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.Map;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
+﻿using CorpsMod.Content.Items.Placeable; // CorpsMod.Content.Items.Placeable を使用
+using CorpsMod.Content.TileEntities; // CorpsMod.Content.TileEntities を使用
+using Microsoft.Xna.Framework; // Microsoft.Xna.Framework を使用
+using Microsoft.Xna.Framework.Graphics; // Microsoft.Xna.Framework.Graphics を使用
+using ReLogic.Content; // ReLogic.Content を使用
+using Terraria; // Terraria を使用
+using Terraria.Audio; // Terraria.Audio を使用
+using Terraria.DataStructures; // Terraria.DataStructures を使用
+using Terraria.GameContent; // Terraria.GameContent を使用
+using Terraria.GameContent.ObjectInteractions; // Terraria.GameContent.ObjectInteractions を使用
+using Terraria.ID; // Terraria.ID を使用
+using Terraria.Localization; // Terraria.Localization を使用
+using Terraria.Map; // Terraria.Map を使用
+using Terraria.ModLoader; // Terraria.ModLoader を使用
+using Terraria.ObjectData; // Terraria.ObjectData を使用
 
 namespace CorpsMod.Content.Tiles
 {
 	/// <summary>
-	/// This is a more advanced variation of the <seealso cref="ExamplePylonTile"/> implementation
-	/// in tandem with <seealso cref="AdvancedPylonTileEntity"/>, which shows off what advanced techniques you can apply with ModPylons.
-	/// If you want to use ModPylons with your own Tile Entities or with multi-tiles that do not conform to vanilla's standards, then
-	/// this is the example for you. If you just want normal pylons that act like the ones in vanilla do, check out <seealso cref="ExamplePylonTile"/>.
+	/// これは、<seealso cref="ExamplePylonTile"/> の実装をより高度にしたバリエーションであり、
+	/// <seealso cref="AdvancedPylonTileEntity"/> と連携して、ModPylonで適用できる高度なテクニックを示しています。
+	/// 独自のタイルエンティティや、バニラの標準に準拠しないマルチタイルでModPylonを使用したい場合に適した例です。
+	/// バニラと同様に動作する通常のパイロンが必要な場合は、<seealso cref="ExamplePylonTile"/> を確認してください。
 	/// </summary>
 	/// <remarks>
-	/// Note that since this is an advanced example, things that were already explained in <seealso cref="ExamplePylonTile"/> will not
-	/// be as thoroughly explained. They will still be explained if needed in context.
+	/// これは高度な例であるため、<seealso cref="ExamplePylonTile"/> で既に説明された内容は、
+	/// あまり詳細には説明しません。文脈上必要な場合は説明します。
 	/// </remarks>
 	public class ExamplePylonTileAdvanced : ModPylon
 	{
-		public const int CrystalVerticalFrameCount = 8;
+		public const int CrystalVerticalFrameCount = 8; // クリスタルの垂直フレーム数
 
 		public Asset<Texture2D> crystalTexture;
 		public Asset<Texture2D> crystalHighlightTexture;
 		public Asset<Texture2D> mapIcon;
 
 		public override void Load() {
-			// We'll still use the other Example Pylon's sprites, but we need to adjust the texture values first to do so.
+			// 他の Example Pylon のスプライトを使用しますが、それを行うにはまずテクスチャ値を調整する必要があります。
 			crystalTexture = ModContent.Request<Texture2D>(Texture.Replace("Advanced", "") + "_Crystal");
 			crystalHighlightTexture = ModContent.Request<Texture2D>(Texture.Replace("Advanced", "") + "_CrystalHighlight");
 			mapIcon = ModContent.Request<Texture2D>(Texture.Replace("Advanced", "") + "_MapIcon");
 		}
 
 		public override void SetStaticDefaults() {
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
+			Main.tileLighted[Type] = true; // タイルを明るくする
+			Main.tileFrameImportant[Type] = true; // タイルのフレームが重要であることを示す
 
-			// This time around, we'll have a tile that is 2x3 instead of 3x4.
+			// 今回は、3x4ではなく2x3のタイルにします。
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
-			TileObjectData.newTile.Origin = new Point16(0, 2);
-			TileObjectData.newTile.LavaDeath = false;
-			TileObjectData.newTile.DrawYOffset = 2;
-			TileObjectData.newTile.StyleHorizontal = true;
-			// Since we are going to need more in-depth functionality, we can't use vanilla's Pylon TE's OnPlace or CanPlace:
+			TileObjectData.newTile.Origin = new Point16(0, 2); // 原点を設定 (左下隅)
+			TileObjectData.newTile.LavaDeath = false; // 溶岩で破壊されない
+			TileObjectData.newTile.DrawYOffset = 2; // Y軸方向の描画オフセットを設定
+			TileObjectData.newTile.StyleHorizontal = true; // スタイルを水平方向に設定
+
+			// より詳細な機能が必要になるため、バニラのPylon TEのOnPlaceやCanPlaceは使用できません。
 			AdvancedPylonTileEntity advancedEntity = ModContent.GetInstance<AdvancedPylonTileEntity>();
+			// 配置チェックのフック：配置前にチェックする（AdvancedPylonTileEntity内のメソッドを使用）
 			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(advancedEntity.PlacementPreviewHook_CheckIfCanPlace, 1, 0, true);
+			// 配置後のフック：プレイヤーによる配置後に呼び出す（AdvancedPylonTileEntity内のメソッドを使用）
 			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(advancedEntity.Hook_AfterPlacement, -1, 0, false);
 
-			TileObjectData.addTile(Type);
+			TileObjectData.addTile(Type); // タイルデータを追加
 
-			TileID.Sets.InteractibleByNPCs[Type] = true;
-			TileID.Sets.PreventsSandfall[Type] = true;
+			TileID.Sets.InteractibleByNPCs[Type] = true; // NPCと対話可能
+			TileID.Sets.PreventsSandfall[Type] = true; // 砂の落下を防ぐ
 
-			AddToArray(ref TileID.Sets.CountsAsPylon);
+			AddToArray(ref TileID.Sets.CountsAsPylon); // Pylonとしてカウントされるセットに追加
 
-			LocalizedText pylonName = CreateMapEntryName();
-			AddMapEntry(Color.Black, pylonName);
+			LocalizedText pylonName = CreateMapEntryName(); // マップエントリー名を作成
+			AddMapEntry(Color.Black, pylonName); // マップにエントリーを追加
 		}
 
 		public override NPCShop.Entry GetNPCShopEntry() {
-			// Let's say that our pylon is for sale no matter what for any NPC under all circumstances.
+			// このパイロンは、いかなる状況下でもすべてのNPCに対して販売されると仮定します。
 			return new NPCShop.Entry(ModContent.ItemType<ExamplePylonItemAdvanced>());
 		}
 
 		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) {
-			return true;
+			return true; // スマートインタラクトを有効にする
 		}
 
 		public override bool RightClick(int i, int j) {
-			Main.mapFullscreen = true;
-			SoundEngine.PlaySound(SoundID.MenuOpen);
+			Main.mapFullscreen = true; // マップをフルスクリーン表示にする
+			SoundEngine.PlaySound(SoundID.MenuOpen); // メニュー開く音を再生
 			return true;
 		}
 
 		public override void MouseOver(int i, int j) {
-			Main.LocalPlayer.cursorItemIconEnabled = true;
-			Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<ExamplePylonItemAdvanced>();
+			Main.LocalPlayer.cursorItemIconEnabled = true; // カーソルアイテムアイコンを有効にする
+			Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<ExamplePylonItemAdvanced>(); // アイコンをこのパイロンアイテムに設定
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) {
+			// マルチタイルが破壊されたとき、対応するタイルエンティティも破壊します。
 			ModContent.GetInstance<AdvancedPylonTileEntity>().Kill(i, j);
 		}
 
-		// For the sake of example, we will allow this pylon to always be teleported to as long as it is on, so we make sure these two checks return true.
+		// 例として、このパイロンはアクティブである限り常にテレポート可能であるため、これら2つのチェックがtrueを返すようにします。
 		public override bool ValidTeleportCheck_NPCCount(TeleportPylonInfo pylonInfo, int defaultNecessaryNPCCount) {
-			return true;
+			return true; // NPCカウントチェックを常に通過させる
 		}
 
 		public override bool ValidTeleportCheck_AnyDanger(TeleportPylonInfo pylonInfo) {
-			return true;
+			return true; // 危険性チェックを常に通過させる
 		}
 
-		// These two steps below are simply determining whether or not either side of the coin is valid, which is to say:
-		// Is the destination pylon (the pylon clicked on the map) a valid pylon, and is the pylon the player standing near (the nearby pylon)
-		// a valid pylon? If either one of these checks fail, a errorKey wil be set to a custom localization key and a message will go to the player with
-		// said text (after its been localized, of course).
+		// 以下の2つのステップは、コインの両面が有効かどうか、つまり、
+		// 目的地パイロン（マップ上でクリックされたパイロン）が有効なパイロンであるか、およびプレイヤーが近くに立っているパイロン（近くのパイロン）が
+		// 有効なパイロンであるかを判断するものです。これらのチェックのいずれかが失敗した場合、errorKeyにカスタムのローカライゼーションキーが設定され、
+		// そのテキスト（ローカライズ後）を含むメッセージがプレイヤーに送信されます。
 		public override void ValidTeleportCheck_DestinationPostCheck(TeleportPylonInfo destinationPylonInfo, ref bool destinationPylonValid, ref string errorKey) {
-			// If you are unfamiliar with pattern matching notation, all this is asking is:
-			// 1) The Tile Entity at the given position is an AdvancedPylonTileEntity (AKA not null or something else)
-			// 2) The Tile Entity's isActive value is false
+			// パターンマッチング記法に馴染みがない場合、これは次のことを尋ねています：
+			// 1) 指定された位置のタイルエンティティがAdvancedPylonTileEntityである（AKA nullや他のものではない）
+			// 2) タイルエンティティのisActive値がfalseである
 			if (TileEntity.ByPosition[destinationPylonInfo.PositionInTiles] is AdvancedPylonTileEntity { isActive: false }) {
-				// Given that both of these things are true, set the error key to our own special message (check the localization file), and make the destination value invalid (false)
+				// これらの両方が真である場合、エラーキーを独自の特別なメッセージに設定し（ローカライゼーションファイルを確認）、目的地の値を無効（false）にします。
 				destinationPylonValid = false;
-				errorKey = "Mods.CorpsMod.MessageInfo.UnstablePylonIsOff";
+				errorKey = "Mods.CorpsMod.MessageInfo.UnstablePylonIsOff"; // ローカライゼーションキーを設定
 			}
 		}
 
 		public override void ValidTeleportCheck_NearbyPostCheck(TeleportPylonInfo nearbyPylonInfo, ref bool destinationPylonValid, ref bool anyNearbyValidPylon, ref string errorKey) {
-			// The next check is determining whether or not the nearby pylon is potentially unstable, and if so, if it's not active, we also prevent teleportation.
+			// 次のチェックは、近くのパイロンが潜在的に不安定であるかどうかを判断し、もしそうであれば、それがアクティブでない場合もテレポートを阻止します。
 			if (TileEntity.ByPosition[nearbyPylonInfo.PositionInTiles] is AdvancedPylonTileEntity { isActive: false }) {
 				destinationPylonValid = false;
-				errorKey = "Mods.CorpsMod.MessageInfo.NearbyUnstablePylonIsOff";
+				errorKey = "Mods.CorpsMod.MessageInfo.NearbyUnstablePylonIsOff"; // ローカライゼーションキーを設定
 			}
 		}
 
 		public override void ModifyTeleportationPosition(TeleportPylonInfo destinationPylonInfo, ref Vector2 teleportationPosition) {
-			// Now, for the fun of it and for the showcase of this hook, let's put a player a bit into the air above the pylon when they teleport.
+			// このフックのショーケースとして、テレポート時にプレイヤーをパイロンの上空少しに配置してみましょう。
 			teleportationPosition = destinationPylonInfo.PositionInTiles.ToWorldCoordinates(8f, -32f);
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b) {
-			// Same as the basic example, but our light will be the disco color like the crystal
+			// 基本的な例と同じですが、今回は光の色がクリスタルと同じディスコカラー（虹色）になります。
 			r = Main.DiscoColor.R / 255f * 0.75f;
 			g = Main.DiscoColor.G / 255f * 0.75f;
 			b = Main.DiscoColor.B / 255f * 0.75f;
 		}
 
 		public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData) {
-			// This time, we'll ONLY draw the crystal if the pylon is active
-			// We need to check the framing here in order to guarantee we that we are trying to grab the TE ONLY when in the top left corner, where it is
-			// located. If we don't do this check, we will be attempting to grab the TE in position where it doesn't exist, throwing errors and causing
-			// loads of visual bugs.
+			// 今回は、パイロンがアクティブな場合にのみクリスタルを描画します。
+			// ここでフレーミングをチェックして、TEが存在する左上隅にある場合にのみTEを取得しようとしていることを保証する必要があります。
+			// このチェックを行わないと、TEが存在しない位置でTEを取得しようとし、エラーが発生し、大量の視覚的なバグを引き起こします。
 			if (drawData.tileFrameX % 36 == 0 && drawData.tileFrameY == 0 && TileEntity.ByPosition.TryGetValue(new Point16(i, j), out TileEntity entity) && entity is AdvancedPylonTileEntity { isActive: true }) {
-				Main.instance.TilesRenderer.AddSpecialLegacyPoint(i, j);
+				Main.instance.TilesRenderer.AddSpecialLegacyPoint(i, j); // 特殊な描画ポイントを追加
 			}
 		}
 
 		public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch) {
-			// This code is essentially identical to how it is in the basic example, but this time the crystal color is the disco (rainbow) color instead
-			// Also, since we want the pylon crystal to be drawn at the same height as vanilla (since our tile is one tile smaller), we have to move up the crystal accordingly with the crystalOffset parameter
+			// このコードは基本的に基本的な例と同じですが、今回はクリスタルの色がディスコ（虹色）になっています。
+			// また、私たちのタイルはバニラよりも1タイル小さいため、パイロンのクリスタルがバニラと同じ高さで描画されるように、
+			// crystalOffsetパラメータでクリスタルをそれに応じて上に移動する必要があります。
 			DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, crystalHighlightTexture, new Vector2(0f, -18f), Main.DiscoColor * 0.1f, Main.DiscoColor, 1, CrystalVerticalFrameCount);
 		}
 
 		public override void DrawMapIcon(ref MapOverlayDrawContext context, ref string mouseOverText, TeleportPylonInfo pylonInfo, bool isNearPylon, Color drawColor, float deselectedScale, float selectedScale) {
 			if (!TileEntity.ByPosition.TryGetValue(pylonInfo.PositionInTiles, out var te) || te is not AdvancedPylonTileEntity entity) {
-				// If for some reason we don't find the tile entity, we won't draw anything.
+				// 何らかの理由でタイルエンティティが見つからない場合は、何も描画しません。
 				return;
 			}
 
-			// Depending on the whether or not the pylon is active, the color of the icon will change;
-			// otherwise, it acts as normal.
+			// パイロンがアクティブであるかどうかに応じて、アイコンの色が変わります。
+			// それ以外の場合は通常通りに動作します。
 			drawColor = !entity.isActive ? Color.Gray * 0.5f : drawColor;
 			bool mouseOver = DefaultDrawMapIcon(ref context, mapIcon, pylonInfo.PositionInTiles.ToVector2() + new Vector2(1, 1.5f), drawColor, deselectedScale, selectedScale);
+			// マップクリック時の処理（マウスオーバーテキストの設定）
 			DefaultMapClickHandle(mouseOver, pylonInfo, ModContent.GetInstance<ExamplePylonItemAdvanced>().DisplayName.Key, ref mouseOverText);
 		}
 	}

@@ -8,11 +8,12 @@ using Terraria.ModLoader;
 
 namespace CorpsMod.Content
 {
-	// This class contains thoughtful examples of item recipe creation.
-	// Recipes are explained in detail on the https://github.com/tModLoader/tModLoader/wiki/Basic-Recipes and https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes wiki pages. Please visit the wiki to learn more about recipes if anything is unclear.
+	// このクラスには、アイテムレシピ作成の思慮深い例が含まれています。
+	// レシピは、https://github.com/tModLoader/tModLoader/wiki/Basic-Recipes および https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes の
+	// Wikiページで詳しく説明されています。不明点がある場合は、Wikiにアクセスしてレシピについてさらに学んでください。
 	public class ExampleRecipes : ModSystem
 	{
-		// A place to store the recipe group so we can easily use it later
+		// レシピグループを保存する場所。後で簡単に使用できるようにします。
 		public static RecipeGroup ExampleRecipeGroup;
 
 		public override void Unload() {
@@ -20,21 +21,26 @@ namespace CorpsMod.Content
 		}
 
 		public override void AddRecipeGroups() {
-			// Create a recipe group and store it
-			// Language.GetTextValue("LegacyMisc.37") is the word "Any" in English, and the corresponding word in other languages
+			// レシピグループを作成し、保存します。
+			// Language.GetTextValue("LegacyMisc.37") は英語で「Any」という単語であり、他の言語でも対応する単語が取得されます。
 			ExampleRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ModContent.ItemType<Items.ExampleItem>())}",
 				ModContent.ItemType<Items.ExampleItem>(), ModContent.ItemType<Items.ExampleDataItem>());
 
-			// To avoid name collisions, when a modded items is the iconic or 1st item in a recipe group, name the recipe group: ModName:ItemName
+			// 名前の衝突を避けるために、モッド付きアイテムがレシピグループの象徴的なアイテム（または最初のアイテム）である場合、
+			// レシピグループに「ModName:ItemName」と名前を付けます。
 			RecipeGroup.RegisterGroup("CorpsMod:ExampleItem", ExampleRecipeGroup);
 
-			// Add an item to an existing Terraria recipeGroup. ExampleCritterItem isn't gold but it serves as an example for this.
+			// 既存のTerrariaレシピグループにアイテムを追加します。ExampleCritterItemはゴールドではありませんが、これの例として機能します。
 			RecipeGroup.recipeGroups[RecipeGroupID.GoldenCritter].ValidItems.Add(ModContent.ItemType<ExampleCritterItem>());
 
-			// We also add ExampleSand to the Sand group, which is used in the Glass and Magic Sand Dropper recipes
+			// また、GlassとMagic Sand Dropperのレシピで使用されるSandグループにExampleSandを追加します。
 			RecipeGroup.recipeGroups[RecipeGroupID.Sand].ValidItems.Add(ModContent.ItemType<ExampleSandBlock>());
 
-			// While an "IronBar" group exists, "SilverBar" does not. tModLoader will merge recipe groups registered with the same name, so if you are registering a recipe group with a vanilla item as the 1st item, you can register it using just the internal item name if you anticipate other mods wanting to use this recipe group for the same concept. By doing this, multiple mods can add to the same group without extra effort. In this case we are adding a SilverBar group. Don't store the RecipeGroup instance, it might not be used, use the same nameof(ItemID.ItemName) or RecipeGroupID returned from RegisterGroup when using Recipe.AddRecipeGroup instead.
+			// 「IronBar」グループは存在しますが、「SilverBar」は存在しません。tModLoaderは、同じ名前で登録されたレシピグループをマージするため、
+			// バニラアイテムを最初のアイテムとして使用してレシピグループを登録する場合、他のモッドが同じ概念のためにこのレシピグループを使用することを
+			// 想定しているならば、内部アイテム名のみを使用して登録できます。これにより、複数のモッドが余分な労力なしに同じグループに追加できます。
+			// このケースでは、SilverBarグループを追加しています。RecipeGroupインスタンスは格納しないでください。使用されない可能性があり、
+			// 代わりにRecipe.AddRecipeGroupを使用するときは、同じ nameof(ItemID.ItemName) または RegisterGroupから返された RecipeGroupID を使用します。
 			RecipeGroup SilverBarRecipeGroup = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SilverBar)}",
 			ItemID.SilverBar, ItemID.TungstenBar, ModContent.ItemType<Items.Placeable.ExampleBar>());
 			RecipeGroup.RegisterGroup(nameof(ItemID.SilverBar), SilverBarRecipeGroup);
@@ -42,85 +48,87 @@ namespace CorpsMod.Content
 
 		public override void AddRecipes() {
 			////////////////////////////////////////////////////////////////////////////////////
-			// The following basic recipe makes 999 ExampleItems out of 1 stone block. //
+			// 以下の基本的なレシピは、1つの石のブロックから999個のExampleItemを作成します。//
 			////////////////////////////////////////////////////////////////////////////////////
 
 			Recipe recipe = Recipe.Create(ModContent.ItemType<Items.ExampleItem>(), 999);
-			// This adds a requirement of 1 stone block to the recipe.
+			// これにより、レシピに1つの石のブロックの要求が追加されます。
 			recipe.AddIngredient(ItemID.StoneBlock);
-			// When you're done, call this to register the recipe.
+			// 完了したら、これを呼び出してレシピを登録します。
 			recipe.Register();
 
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// The following recipe showcases and explains all methods (functions) present on Recipe, and uses an 'advanced' style called 'chaining'. //
+			// 以下のレシピは、Recipeに存在するすべてのメソッド（関数）を紹介し、説明し、「チェイン」と呼ばれる「高度な」スタイルを使用します。//
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// The reason why the said chaining works is that all methods on Recipe, with the exception of Register(), return its own instance,
-			// which lets you call subsequent methods on that return value, without having to type a local variable's name.
-			// When using chaining, note that only the last line is supposed to have a semicolon (;).
+			// 前述のチェインが機能する理由は、Register()を除いて、Recipeのすべてのメソッドがそれ自体のインスタンスを返すためです。
+			// これにより、ローカル変数の名前を入力せずに、その戻り値に対して後続のメソッドを呼び出すことができます。
+			// チェインを使用する場合、最後の行のみにセミコロン(;)があることに注意してください。
 
 			var resultItem = ModContent.GetInstance<Items.ExampleItem>();
 
-			// Start a new Recipe.
+			// 新しいレシピを開始します。
 			resultItem.CreateRecipe()
-				// Adds a Vanilla Ingredient.
-				// Look up ItemIDs: https://github.com/tModLoader/tModLoader/wiki/Vanilla-Content-IDs#item-ids
-				// To specify more than one ingredient type, use multiple recipe.AddIngredient() calls.
+				// バニラの材料を追加します。
+				// ItemIDを検索します: https://github.com/tModLoader/tModLoader/wiki/Vanilla-Content-IDs#item-ids
+				// 複数の材料タイプを指定するには、複数の recipe.AddIngredient() 呼び出しを使用します。
 				.AddIngredient(ItemID.StoneBlock)
-				// An optional 2nd argument will specify a stack of the item. Any calls to any AddIngredient overload without a stack value at the end will have the stack default to 1.
+				// オプションの第2引数で、アイテムのスタックを指定します。スタック値なしで任意の AddIngredient オーバーロードを呼び出した場合、スタックはデフォルトで1になります。
 				.AddIngredient(ItemID.Acorn, 10)
-				// We can also specify the current item as an ingredient
+				// 現在のアイテムを材料として指定することもできます
 				.AddIngredient(resultItem)
-				// Adds a Mod Ingredient. Do not attempt ItemID.ExampleSword, it's not how it works.
+				// モッドの材料を追加します。ItemID.ExampleSword を試さないでください。それは機能しません。
 				.AddIngredient<Items.Weapons.ExampleSword>()
-				// An alternate string-based approach to the above. Try to only use it for other mods' items, because it's slower.
+				// 上記の代替となる文字列ベースのアプローチ。他のモッドのアイテムにのみ使用するようにしてください。遅くなります。
 				.AddIngredient(Mod, "ExampleSword")
 
-				// RecipeGroups allow you create a recipe that accepts items from a group of similar ingredients. For example, all varieties of Wood are in the vanilla "Wood" Group
-				// Check here for other vanilla groups: https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#using-existing-recipegroups
+				// RecipeGroupsを使用すると、類似の材料のグループからのアイテムを受け入れるレシピを作成できます。
+				// たとえば、すべての種類の木材はバニラの「Wood」グループにあります。
+				// 他のバニラグループについては、こちらを確認してください: https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#using-existing-recipegroups
 				.AddRecipeGroup(RecipeGroupID.Wood)
-				// Just like with AddIngredient, there's a stack parameter with a default value of 1.
+				// AddIngredientと同様に、デフォルト値が1のスタックパラメーターがあります。
 				.AddRecipeGroup(RecipeGroupID.IronBar, 2)
-				// Here is using a mod recipe group. Check out AddRecipeGroups() to see how to register a recipe group.
+				// ここではモッドのレシピグループを使用しています。レシピグループの登録方法については、AddRecipeGroups() を確認してください。
 				.AddRecipeGroup(ExampleRecipeGroup, 2)
-				// An alternate string-based approach to the above. Try to only use it for other mods' groups, because it's slower.
+				// 上記の代替となる文字列ベースのアプローチ。他のモッドのグループにのみ使用するようにしてください。遅くなります。
 				.AddRecipeGroup("Wood")
 				.AddRecipeGroup("CorpsMod:ExampleItem", 2)
 
-				// Adds a vanilla tile requirement.
-				// To specify a crafting station, specify a tile. Look up TileIDs: https://github.com/tModLoader/tModLoader/wiki/Vanilla-Tile-IDs
+				// バニラのタイル要件を追加します。
+				// クラフトステーションを指定するには、タイルを指定します。TileIDを検索します: https://github.com/tModLoader/tModLoader/wiki/Vanilla-Tile-IDs
 				.AddTile(TileID.WorkBenches)
-				// Adds a mod tile requirement. To specify more than one crafting station, use multiple recipe.AddTile() calls.
+				// モッドのタイル要件を追加します。複数のクラフトステーションを指定するには、複数の recipe.AddTile() 呼び出しを使用します。
 				.AddTile<Tiles.Furniture.ExampleWorkbench>()
-				// An alternate string-based approach to the above. Try to only use it for other mods' tiles, because it's slower.
+				// 上記の代替となる文字列ベースのアプローチ。他のモッドのタイルにのみ使用するようにしてください。遅くなります。
 				.AddTile(Mod, "ExampleWorkbench")
 
-				// Adds pre-defined conditions. These 3 lines combine to make so that the recipe must be crafted in desert waters at night.
+				// 事前定義された条件を追加します。これら3行を組み合わせることで、レシピが夜間の砂漠の水中でクラフトされる必要があるようになります。
 				.AddCondition(Condition.InDesert)
 				.AddCondition(Condition.NearWater)
 				.AddCondition(Condition.TimeNight)
-				// Adds a custom condition, that the player must be at <1/2 health for the recipe to work.
-				// The key used here is defined in 'Localization/*.hjson' files.
-				// The second argument uses a lambda expression to create a delegate, you can learn more about lambdas in Google.
+				// カスタム条件を追加します。レシピが機能するには、プレイヤーの体力が1/2未満である必要があります。
+				// ここで使用されるキーは、「Localization/*.hjson」ファイルで定義されています。
+				// 2番目の引数は、デリゲートを作成するためにラムダ式を使用します。ラムダの詳細については、Googleで学べます。
 				.AddCondition(Language.GetOrRegister("Mods.CorpsMod.Conditions.LowHealth"), () => Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax / 2)
-				// Adds a custom condition that can be reused in other recipes easily because it is stored in a static class. This is the recommended approach for custom conditions: https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#custom-conditions
+				// 静的クラスに格納されているため、他のレシピで簡単に再利用できるカスタム条件を追加します。
+				// これはカスタム条件に推奨されるアプローチです: https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#custom-conditions
 				.AddCondition(ExampleConditions.InExampleBiome)
 
-				// When you're done, call this to register the recipe. Note that there's a semicolon at the end of the chain.
+				// 完了したら、これを呼び出してレシピを登録します。チェインの最後にセミコロンがあることに注意してください。
 				.Register();
 
-			// In addition to these methods, there are also methods relating to shimmer decrafting. See ShimmerShowcase.cs for that.
+			// これらのメソッドに加えて、シマーデクラフトに関連するメソッドもあります。これについては、ShimmerShowcase.csを参照してください。
 
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// The following recipe showcases and explains cloning recipes and how they can modified to differ from the original recipes they came from. //
+			// 以下のレシピは、レシピのクローン作成と、元のレシピと異なるように変更する方法を紹介し、説明します。//
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// If you want to make a copy of an existing recipe with a slight difference, you can use Mod.CloneRecipe to create a clone of that recipe.
-			// The clone will inherit all of the original recipe's properties except the owner mod will be this mod. You can change the clone as you see fit.
-			// If you want to make multiple variations of a recipe in your mod, it may be easier to use a helper method instead of cloning.
-			// Make sure to not use recipe cloning for situations that are better served by properly using AdjTiles, Recipe Groups, or faking various recipe conditions.
+			// 既存のレシピを少し変更してコピーを作成したい場合は、Mod.CloneRecipeを使用してそのレシピのクローンを作成できます。
+			// クローンは、所有者モッドがこのモッドになることを除いて、元のレシピのすべてのプロパティを継承します。必要に応じてクローンを変更できます。
+			// モッド内でレシピの複数のバリエーションを作成したい場合は、クローンを作成する代わりにヘルパーメソッドを使用する方が簡単な場合があります。
+			// AdjTiles、Recipe Groups、またはさまざまなレシピ条件の偽装を適切に使用することでより適切に処理される状況では、レシピのクローン作成を使用しないように注意してください。
 
-			// Start by creating a recipe you want to copy.
+			// まず、コピーしたいレシピを作成します。
 			Recipe baseRecipe = Recipe.Create(ModContent.ItemType<Items.ExampleItem>(), 10);
 			baseRecipe.AddIngredient(ItemID.Wood, 10)
 				.AddIngredient(ItemID.CopperCoin)
@@ -128,21 +136,22 @@ namespace CorpsMod.Content
 				.AddCondition(Condition.TimeDay)
 				.Register();
 
-			// Start a new Recipe by cloning another recipe.
+			// 別のレシピをクローンすることで、新しいレシピを開始します。
 			Recipe clonedRecipe = baseRecipe.Clone()
-				// We can new properties to this recipe without affecting the one we cloned from.
+				// クローン元のレシピに影響を与えることなく、このレシピに新しいプロパティを追加できます。
 				.AddIngredient(ItemID.SilverCoin)
 				.AddTile(TileID.Anvils);
 
-			// We can also remove properties from recipes like specific ingredients or conditions.
+			// 特定の材料や条件など、レシピからプロパティを削除することもできます。
 			clonedRecipe.RemoveIngredient(ItemID.CopperCoin);
 			clonedRecipe.RemoveCondition(Condition.InBeach);
 
-			// When you're done, call this to register the recipe.
+			// 完了したら、これを呼び出してレシピを登録します。
 			clonedRecipe.Register();
 
-			// Recipes can also contain custom item consumption logic, similar to how the Alchemy Table causes potion recipes to consume less ingredients: See https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#custom-item-consumption for more information.
-			// This example requires the Chain item as an ingredient, but the DontConsumeChain ConsumeIngredientCallback causes the Chain to not be consumed
+			// レシピには、カスタムのアイテム消費ロジックを含めることもできます。これは、Alchemy Tableがポーションレシピで消費する材料を減らす方法に似ています。
+			// 詳細については、https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#custom-item-consumption を参照してください。
+			// この例では、Chainアイテムを材料として必要としますが、DontConsumeChain ConsumeIngredientCallbackにより、Chainは消費されません。
 			Recipe.Create(ItemID.AlphabetStatueJ)
 				.AddIngredient(ItemID.StoneBlock, 10)
 				.AddIngredient(ItemID.Chain)
@@ -150,8 +159,9 @@ namespace CorpsMod.Content
 				.AddTile(TileID.HeavyWorkBench)
 				.Register();
 
-			// Recipes can also run custom code after being crafted: See https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#custom-recipe-craft-behavior for more information.
-			// This example runs code that might spawn fireworks when the recipe is crafted.
+			// レシピは、クラフトされた後にカスタムコードを実行することもできます。
+			// 詳細については、https://github.com/tModLoader/tModLoader/wiki/Intermediate-Recipes#custom-recipe-craft-behavior を参照してください。
+			// この例では、レシピがクラフトされたときに花火をランダムにスポーンする可能性のあるコードを実行します。
 			Recipe.Create(ItemID.AlphabetStatueZ)
 				.AddIngredient(ItemID.StoneBlock, 10)
 				.AddIngredient(ItemID.Chain)
@@ -164,7 +174,7 @@ namespace CorpsMod.Content
 			for (int i = 0; i < Recipe.numRecipes; i++) {
 				Recipe recipe = Main.recipe[i];
 
-				// All recipes that require wood will now need 100% more
+				// 木材を必要とするすべてのレシピは、100%多く必要になります。
 				if (recipe.TryGetIngredient(ItemID.Wood, out Item ingredient)) {
 					ingredient.stack *= 2;
 				}

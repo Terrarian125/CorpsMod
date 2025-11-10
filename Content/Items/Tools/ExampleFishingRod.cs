@@ -1,74 +1,74 @@
-﻿using CorpsMod.Content.Projectiles;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using CorpsMod.Content.Projectiles; // CorpsMod.Content.Projectiles を使用
+using Microsoft.Xna.Framework; // Microsoft.Xna.Framework を使用
+using Terraria; // Terraria を使用
+using Terraria.DataStructures; // Terraria.DataStructures を使用
+using Terraria.ID; // Terraria.ID を使用
+using Terraria.ModLoader; // Terraria.ModLoader を使用
 
 namespace CorpsMod.Content.Items.Tools
 {
-	// ExampleFishingRod is a fishing rod item.
-	// The code in SetDefaults and the code setting lineOriginOffset in ModifyFishingLine is all the would be needed for a typical working fishing rod item.
-	// All of the rest of the code showcases other additional capabilities, such as multiple bobbers, custom line colors, and fishing in lava.
+	// ExampleFishingRod は釣り竿アイテムの例です。
+	// SetDefaults内のコードと、ModifyFishingLineでlineOriginOffsetを設定するコードは、一般的な動作する釣り竿アイテムに必要なすべてです。
+	// それ以外のコードはすべて、複数の浮き（bobbers）、カスタムラインの色、溶岩での釣りといった追加の機能を示しています。
 	public class ExampleFishingRod : ModItem
 	{
 		public override void SetStaticDefaults() {
-			ItemID.Sets.CanFishInLava[Item.type] = true; // Allows the pole to fish in lava
+			ItemID.Sets.CanFishInLava[Item.type] = true; // この釣り竿で溶岩での釣りを許可します
 		}
 
 		public override void SetDefaults() {
-			// These are copied through the CloneDefaults method:
+			// これらはCloneDefaultsメソッドによってコピーされます:
 			// Item.width = 24;
 			// Item.height = 28;
 			// Item.useStyle = ItemUseStyleID.Swing;
 			// Item.useAnimation = 8;
 			// Item.useTime = 8;
 			// Item.UseSound = SoundID.Item1;
-			Item.CloneDefaults(ItemID.WoodFishingPole);
+			Item.CloneDefaults(ItemID.WoodFishingPole); // 木の釣り竿のデフォルト値をコピー
 
-			Item.fishingPole = 30; // Sets the poles fishing power
-			Item.shootSpeed = 12f; // Sets the speed in which the bobbers are launched. Wooden Fishing Pole is 9f and Golden Fishing Rod is 17f.
-			Item.shoot = ModContent.ProjectileType<Projectiles.ExampleBobber>(); // The bobber projectile. Note that this will be overridden by Fishing Bobber accessories if present, so don't assume the bobber spawned is the specified projectile. https://terraria.wiki.gg/wiki/Fishing_Bobbers
+			Item.fishingPole = 30; // 釣り竿の釣りパワーを設定します
+			Item.shootSpeed = 12f; // 浮きが射出される速度を設定します。木の釣り竿は9f、金の釣り竿は17fです。
+			Item.shoot = ModContent.ProjectileType<Projectiles.ExampleBobber>(); // 浮きの投射物。注：釣り浮きアクセサリーが存在する場合、これによって上書きされるため、スポーンした浮きが指定された投射物であると想定しないでください。https://terraria.wiki.gg/wiki/Fishing_Bobbers
 		}
 
-		// Grants the High Test Fishing Line bool if holding the item.
-		// NOTE: Only triggers through the hotbar, not if you hold the item by hand outside of the inventory.
+		// アイテムを持っている場合、High Test Fishing Line（丈夫な釣り糸）のブール値を与えます。
+		// 注：インベントリの外で手でアイテムを持っている場合ではなく、ホットバーにある場合のみトリガーされます。
 		public override void HoldItem(Player player) {
 			player.accFishingLine = true;
 		}
 
-		// Overrides the default shooting method to fire multiple bobbers.
-		// NOTE: This will allow the fishing rod to summon multiple Duke Fishrons with multiple Truffle Worms in the inventory.
+		// 複数の浮きを発射するために、デフォルトの射出メソッドをオーバーライドします。
+		// 注：これにより、インベントリに複数のトリュフワームがある場合、釣り竿が複数のデュークフィッシュロンを召喚できるようになります。
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-			int bobberAmount = Main.rand.Next(3, 6); // 3 to 5 bobbers
-			float spreadAmount = 75f; // how much the different bobbers are spread out.
+			int bobberAmount = Main.rand.Next(3, 6); // 3～5個の浮き
+			float spreadAmount = 75f; // 異なる浮きがどれだけ拡散するか。
 
 			for (int index = 0; index < bobberAmount; ++index) {
 				Vector2 bobberSpeed = velocity + new Vector2(Main.rand.NextFloat(-spreadAmount, spreadAmount) * 0.05f, Main.rand.NextFloat(-spreadAmount, spreadAmount) * 0.05f);
 
-				// Generate new bobbers
+				// 新しい浮きを生成
 				Projectile.NewProjectile(source, position, bobberSpeed, type, 0, 0f, player.whoAmI);
 			}
-			return false;
+			return false; // デフォルトの射出を防ぎ、カスタムのマルチショットを使用します
 		}
 
 		public override void ModifyFishingLine(Projectile bobber, ref Vector2 lineOriginOffset, ref Color lineColor) {
-			// Change these two values in order to change the origin of where the line is being drawn.
-			// This will make it draw 43 pixels right and 30 pixels up from the player's center, while they are looking right and in normal gravity.
+			// 釣り糸が描画され始める原点（Origin）を変更するために、この2つの値を変更します。
+			// これにより、プレイヤーが右を向いていて通常の重力下にある場合、プレイヤーの中心から右に43ピクセル、上に30ピクセル移動した位置から描画されます。
 			lineOriginOffset = new Vector2(43, -30);
 
-			// Sets the fishing line's color. Note that this will be overridden by the colored string accessories.
+			// 釣り糸の色を設定します。注：これは色付きのストリングアクセサリーによって上書きされます。
 			if (bobber.ModProjectile is ExampleBobber exampleBobber) {
-				// ExampleBobber has custom code to decide on a line color.
+				// ExampleBobberには、ラインの色を決定するためのカスタムコードがあります。
 				lineColor = exampleBobber.FishingLineColor;
 			}
 			else {
-				// If the bobber isn't ExampleBobber, a Fishing Bobber accessory is in effect and we use DiscoColor instead.
+				// 浮きがExampleBobberでない場合、釣り浮きアクセサリーが有効になっており、代わりにDiscoColor（ディスコカラー）を使用します。
 				lineColor = Main.DiscoColor;
 			}
 		}
 
-		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
+		// レシピ作成の詳細な説明については、Content/ExampleRecipes.csを参照してください。
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient<ExampleItem>(10)

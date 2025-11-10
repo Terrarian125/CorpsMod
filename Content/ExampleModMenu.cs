@@ -11,7 +11,7 @@ namespace CorpsMod.Content
 {
 	public class CorpsModMenu : ModMenu
 	{
-		private const string menuAssetPath = "CorpsMod/Assets/Textures/Menu"; // Creates a constant variable representing the texture path, so we don't have to write it out multiple times
+		private const string menuAssetPath = "CorpsMod/Assets/Textures/Menu"; // テクスチャパスを表す定数を定義します。これにより、同じパスを複数回記述する必要がなくなります。
 
 		private Asset<Texture2D> sunTexture;
 		private Asset<Texture2D> moonTexture;
@@ -21,32 +21,34 @@ namespace CorpsMod.Content
 			moonTexture = ModContent.Request<Texture2D>($"{menuAssetPath}/ExampliumMoon");
 		}
 
-		public override Asset<Texture2D> Logo => base.Logo;
+		public override Asset<Texture2D> Logo => base.Logo; // このモッドメニューで使用するロゴテクスチャを返します。ここではバニラのロゴが使用されます。
 
-		public override Asset<Texture2D> SunTexture => sunTexture;
+		public override Asset<Texture2D> SunTexture => sunTexture; // このモッドメニューで使用する太陽のテクスチャを返します。
 
-		public override Asset<Texture2D> MoonTexture => moonTexture;
+		public override Asset<Texture2D> MoonTexture => moonTexture; // このモッドメニューで使用する月のテクスチャを返します。
 
 		/*
-		In CorpsMod we preload all "extra" textures, as recommended in https://github.com/tModLoader/tModLoader/wiki/Assets#asset-loading-timing.
-		It is possible to load textures on demand instead, which might be useful in rare situations such as rarely used large textures. That would look like this:
+		CorpsModでは、https://github.com/tModLoader/tModLoader/wiki/Assets#asset-loading-timing で推奨されているように、
+		すべての「追加の」テクスチャを**事前にロード**します。
+		非常に大きなテクスチャをめったに使用しないなど、まれな状況では、代わりにオンデマンドでテクスチャをロードすることも可能です。
+		その場合の記述は次のようになります。
 		private Asset<Texture2D> moonTexture;
 		public override Asset<Texture2D> MoonTexture => moonTexture ??= ModContent.Request<Texture2D>($"{menuAssetPath}/ExampliumMoon");
 		*/
 
-		public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/MysteriousMystery");
+		public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/MysteriousMystery"); // このモッドメニューで使用する音楽を返します。
 
-		public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<ExampleSurfaceBackgroundStyle>();
+		public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<ExampleSurfaceBackgroundStyle>(); // このメニューで使用する背景スタイルを返します。
 
-		public override string DisplayName => "Corps ModMenu";
+		public override string DisplayName => "Corps ModMenu"; // メインメニューのモッドメニュー選択画面に表示される名前を返します。
 
 		public override void OnSelected() {
-			SoundEngine.PlaySound(SoundID.Thunder); // Plays a thunder sound when this ModMenu is selected
+			SoundEngine.PlaySound(SoundID.Thunder); // このModMenuが選択されたときに雷のサウンドを再生します。
 		}
 
 		public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor) {
-			drawColor = Main.DiscoColor; // Changes the draw color of the logo
-			return true;
+			//drawColor = Main.DiscoColor; // ロゴの描画色を変更します (ディスコカラーに)。
+			return true; // trueを返すと、ロゴが通常通り描画されます。falseを返すと、描画をスキップできます。
 		}
 	}
 }
