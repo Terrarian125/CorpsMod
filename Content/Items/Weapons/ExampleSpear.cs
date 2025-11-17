@@ -9,41 +9,41 @@ namespace CorpsMod.Content.Items.Weapons
 	public class ExampleSpear : ModItem
 	{
 		public override void SetStaticDefaults() {
-			ItemID.Sets.SkipsInitialUseSound[Item.type] = true; // This skips use animation-tied sound playback, so that we're able to make it be tied to use time instead in the UseItem() hook.
-			ItemID.Sets.Spears[Item.type] = true; // This allows the game to recognize our new item as a spear.
+			ItemID.Sets.SkipsInitialUseSound[Item.type] = true; // これにより、使用アニメーションに紐づくサウンド再生がスキップされます。これにより、UseItem()フック内で使用時間に合わせてサウンドを再生できるようになります。
+			ItemID.Sets.Spears[Item.type] = true; // これにより、ゲームが私たちの新しいアイテムを槍として認識できるようになります。
 		}
 
 		public override void SetDefaults() {
-			// Common Properties
-			Item.rare = ItemRarityID.Pink; // Assign this item a rarity level of Pink
-			Item.value = Item.sellPrice(silver: 10); // The number and type of coins item can be sold for to an NPC
+			// 共通プロパティ (Common Properties)
+			Item.rare = ItemRarityID.Pink; // このアイテムにピンクのレアリティレベルを割り当てます
+			Item.value = Item.sellPrice(silver: 10); // NPCに売却できるコインの種類と枚数
 
-			// Use Properties
-			Item.useStyle = ItemUseStyleID.Shoot; // How you use the item (swinging, holding out, etc.)
-			Item.useAnimation = 12; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-			Item.useTime = 18; // The length of the item's use time in ticks (60 ticks == 1 second.)
-			Item.UseSound = SoundID.Item71; // The sound that this item plays when used.
-			Item.autoReuse = true; // Allows the player to hold click to automatically use the item again. Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+			// 使用プロパティ (Use Properties)
+			Item.useStyle = ItemUseStyleID.Shoot; // アイテムの使用方法（振る、構えるなど）
+			Item.useAnimation = 12; // アイテムの使用アニメーションの長さ（ティック単位、60ティック == 1秒）
+			Item.useTime = 18; // アイテムの使用時間（ティック単位、60ティック == 1秒）
+			Item.UseSound = SoundID.Item71; // このアイテムが使用されたときに再生される音。
+			Item.autoReuse = true; // プレイヤーがクリックを押しっぱなしでアイテムを自動的に再使用できるようにします。ほとんどの槍はautoReuseしませんが、CanUseItem()と組み合わせて使用​​すると可能です。
 
-			// Weapon Properties
+			// 武器プロパティ (Weapon Properties)
 			Item.damage = 25;
 			Item.knockBack = 6.5f;
-			Item.noUseGraphic = true; // When true, the item's sprite will not be visible while the item is in use. This is true because the spear projectile is what's shown so we do not want to show the spear sprite as well.
+			Item.noUseGraphic = true; // trueの場合、アイテム使用中にアイテムの画像が表示されなくなります。槍の弾丸が表示されるため、槍の画像も表示したくないため、trueに設定します。
 			Item.DamageType = DamageClass.Melee;
-			Item.noMelee = true; // Allows the item's animation to do damage. This is important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
+			Item.noMelee = true; // アイテムのアニメーションがダメージを与えないようにします。槍は実際にはアイテムではなく弾丸であるため、これは重要です。これにより、このアイテムの近接攻撃の当たり判定が防止されます。
 
-			// Projectile Properties
-			Item.shootSpeed = 3.7f; // The speed of the projectile measured in pixels per frame.
-			Item.shoot = ModContent.ProjectileType<ExampleSpearProjectile>(); // The projectile that is fired from this weapon
+			// 弾丸プロパティ (Projectile Properties)
+			Item.shootSpeed = 3.7f; // 弾丸の速度（フレームあたりのピクセル数で測定）。
+			Item.shoot = ModContent.ProjectileType<ExampleSpearProjectile>(); // この武器から発射される弾丸
 		}
 
 		public override bool CanUseItem(Player player) {
-			// Ensures no more than one spear can be thrown out, use this when using autoReuse
+			// 自動連射を使用する場合、投げられる槍が1本以下であることを保証します。
 			return player.ownedProjectileCounts[Item.shoot] < 1;
 		}
 
 		public override bool? UseItem(Player player) {
-			// Because we're skipping sound playback on use animation start, we have to play it ourselves whenever the item is actually used.
+			// 使用アニメーションの開始時のサウンド再生をスキップしているため、アイテムが実際に使用されるたびに、自分でサウンドを再生する必要があります。
 			if (!Main.dedServ && Item.UseSound.HasValue) {
 				SoundEngine.PlaySound(Item.UseSound.Value, player.Center);
 			}
@@ -51,7 +51,7 @@ namespace CorpsMod.Content.Items.Weapons
 			return null;
 		}
 
-		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
+		// レシピ作成の詳細については、Content/ExampleRecipes.csを参照してください。
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient<ExampleItem>()

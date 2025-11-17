@@ -9,20 +9,20 @@ namespace CorpsMod.Content.Items.Weapons
 {
 	public class ExampleLastPrism : ModItem
 	{
-		// You can use a vanilla texture for your item by using the format: "Terraria/Item_<Item ID>".
+		// バニラのテクスチャをアイテムに使用するには、次の形式を使用します: "Terraria/Item_<アイテムID>"。
 		public override string Texture => "Terraria/Images/Item_" + ItemID.LastPrism;
 		public static Color OverrideColor = new(122, 173, 255);
 
 		public override void SetDefaults() {
-			// Start by using CloneDefaults to clone all the basic item properties from the vanilla Last Prism.
-			// For example, this copies sprite size, use style, sell price, and the item being a magic weapon.
+			// まず、CloneDefaultsを使用して、バニラのラストプリズム（Last Prism）の基本的なアイテムプロパティをすべてクローンします。
+			// たとえば、これによりスプライトサイズ、使用スタイル、売却価格、そしてアイテムが魔法武器であることなどがコピーされます。
 			Item.CloneDefaults(ItemID.LastPrism);
 			Item.mana = 4;
 			Item.damage = 42;
 			Item.shoot = ModContent.ProjectileType<ExampleLastPrismHoldout>();
 			Item.shootSpeed = 30f;
 
-			// Change the item's draw color so that it is visually distinct from the vanilla Last Prism.
+			// アイテムの描画色を変更し、バニラのラストプリズムと視覚的に区別できるようにします。
 			Item.color = OverrideColor;
 		}
 
@@ -33,7 +33,7 @@ namespace CorpsMod.Content.Items.Weapons
 				.Register();
 		}
 
-		// Because this weapon fires a holdout projectile, it needs to block usage if its projectile already exists.
+		// この武器はホールドアウト（持続的な）弾丸を発射するため、その弾丸がすでに存在する場合は使用をブロックする必要があります。
 		public override bool CanUseItem(Player player) {
 			return player.ownedProjectileCounts[ModContent.ProjectileType<ExampleLastPrismHoldout>()] <= 0;
 		}

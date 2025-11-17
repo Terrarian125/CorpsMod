@@ -11,40 +11,40 @@ namespace CorpsMod.Content.Items.Weapons
 	public class ExampleGun : ModItem
 	{
 		public override void SetDefaults() {
-			// Modders can use Item.DefaultToRangedWeapon to quickly set many common properties, such as: useTime, useAnimation, useStyle, autoReuse, DamageType, shoot, shootSpeed, useAmmo, and noMelee. These are all shown individually here for teaching purposes.
+			// ModderはItem.DefaultToRangedWeaponを使用して、useTime、useAnimation、useStyle、autoReuse、DamageType、shoot、shootSpeed、useAmmo、noMeleeなど、多くの一般的なプロパティを素早く設定できます。これらはすべて、教育目的のためにここで個別に示されています。
 
-			// Common Properties
-			Item.width = 62; // Hitbox width of the item.
-			Item.height = 32; // Hitbox height of the item.
+			// 共通プロパティ (Common Properties)
+			Item.width = 62; // アイテムの当たり判定の幅。
+			Item.height = 32; // アイテムの当たり判定の高さ。
 			Item.scale = 0.75f;
-			Item.rare = ItemRarityID.Green; // The color that the item's name will be in-game.
+			Item.rare = ItemRarityID.Green; // ゲーム内でのアイテム名の色。
 
-			// Use Properties
-			Item.useTime = 8; // The item's use time in ticks (60 ticks == 1 second.)
-			Item.useAnimation = 8; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-			Item.useStyle = ItemUseStyleID.Shoot; // How you use the item (swinging, holding out, etc.)
-			Item.autoReuse = true; // Whether or not you can hold click to automatically use it again.
+			// 使用プロパティ (Use Properties)
+			Item.useTime = 8; // アイテムの使用時間（ティック単位、60ティック == 1秒）。
+			Item.useAnimation = 8; // アイテムの使用アニメーションの長さ（ティック単位、60ティック == 1秒）。
+			Item.useStyle = ItemUseStyleID.Shoot; // アイテムの使用方法（振る、構えるなど）。
+			Item.autoReuse = true; // クリックを押しっぱなしで自動的に再度使用できるかどうか。
 
-			// The sound that this item plays when used.
+			// このアイテムが使用されたときに再生される音。
 			Item.UseSound = new SoundStyle($"{nameof(CorpsMod)}/Assets/Sounds/Items/Guns/ExampleGun") {
 				Volume = 0.9f,
 				PitchVariance = 0.2f,
 				MaxInstances = 3,
 			};
 
-			// Weapon Properties
-			Item.DamageType = DamageClass.Ranged; // Sets the damage type to ranged.
-			Item.damage = 20; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
-			Item.knockBack = 5f; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-			Item.noMelee = true; // So the item's animation doesn't do damage.
+			// 武器プロパティ (Weapon Properties)
+			Item.DamageType = DamageClass.Ranged; // ダメージタイプを遠隔に設定します。
+			Item.damage = 20; // アイテムのダメージを設定します。この武器から発射される弾丸は、このダメージと使用された弾薬のダメージを合計して使用することに注意してください。
+			Item.knockBack = 5f; // アイテムのノックバックを設定します。この武器から発射される弾丸は、このノックバックと使用された弾薬のノックバックを合計して使用することに注意してください。
+			Item.noMelee = true; // アイテムのアニメーションがダメージを与えないようにします。
 
-			// Gun Properties
-			Item.shoot = ProjectileID.PurificationPowder; // For some reason, all the guns in the vanilla source have this.
-			Item.shootSpeed = 10f; // The speed of the projectile (measured in pixels per frame.) This value equivalent to Handgun
-			Item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Ammo IDs are magic numbers that usually correspond to the item id of one item that most commonly represent the ammo type.
+			// 銃プロパティ (Gun Properties)
+			Item.shoot = ProjectileID.PurificationPowder; // どういうわけか、バニラのソースにあるすべての銃にはこれが設定されています。
+			Item.shootSpeed = 10f; // 弾丸の速度（フレームあたりのピクセル数で測定）。この値はハンドガンと同等です。
+			Item.useAmmo = AmmoID.Bullet; // この武器が使用する弾薬アイテムの「弾薬ID」。弾薬IDは、通常、その弾薬タイプを最も一般的に表す一つのアイテムのアイテムIDに対応するマジックナンバーです。
 		}
 
-		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
+		// レシピ作成の詳細については、Content/ExampleRecipes.csを参照してください。
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient<ExampleItem>()
@@ -52,50 +52,50 @@ namespace CorpsMod.Content.Items.Weapons
 				.Register();
 		}
 
-		// This method lets you adjust position of the gun in the player's hands. Play with these values until it looks good with your graphics.
+		// このメソッドを使用すると、プレイヤーの手の中での銃の位置を調整できます。グラフィックと合うようにこれらの値を試してみてください。
 		public override Vector2? HoldoutOffset() {
 			return new Vector2(2f, -2f);
 		}
 
-		// TODO: Move this to a more specifically named example. Say, a paint gun?
+		// TODO: これをより具体的な名前の例（例えば、ペイントガンなど）に移動してください。
 		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-			// Every projectile shot from this gun has a 1/3 chance of being an ExampleInstancedProjectile
+			// この銃から発射されるすべての弾丸は、1/3の確率でExampleInstancedProjectileになります。
 			if (Main.rand.NextBool(3)) {
 				type = ModContent.ProjectileType<ExampleInstancedProjectile>();
 			}
 		}
 
 		/*
-		* Feel free to uncomment any of the examples below to see what they do
+		* 以下の例のいずれかを自由にアンコメントして、それらが何をするかを確認してください。
 		*/
 
-		// What if I wanted it to work like Uzi, replacing regular bullets with High Velocity Bullets?
-		// Uzi/Molten Fury style: Replace normal Bullets with High Velocity
+		// 通常の弾丸を高速弾に置き換えるUziのように機能させたい場合はどうすればよいですか？
+		// Uzi/Molten Furyスタイル：通常の弾丸を高速弾に置き換える
 		/*public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-			if (type == ProjectileID.Bullet) { // or ProjectileID.WoodenArrowFriendly
-				type = ProjectileID.BulletHighVelocity; // or ProjectileID.FireArrow;
+			if (type == ProjectileID.Bullet) { // または ProjectileID.WoodenArrowFriendly
+				type = ProjectileID.BulletHighVelocity; // または ProjectileID.FireArrow;
 			}
 		}*/
 
-		// What if I wanted multiple projectiles in a even spread? (Vampire Knives)
-		// Even Arc style: Multiple Projectile, Even Spread
+		// 均等に拡散する複数の弾丸を発射したい場合はどうすればよいですか？ (ヴァンパイアナイフ)
+		// 均等な円弧スタイル：複数の弾丸、均等な拡散
 		/*public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-			float numberProjectiles = 3 + Main.rand.Next(3); // 3, 4, or 5 shots
+			float numberProjectiles = 3 + Main.rand.Next(3); // 3発、4発、または5発
 			float rotation = MathHelper.ToRadians(45);
 
 			position += Vector2.Normalize(velocity) * 45f;
-			velocity *= 0.2f; // Slow the projectile down to 1/5th speed so we can see it. This is only here because this example shares ModItem.SetDefaults code with other examples. If you are making your own weapon just change Item.shootSpeed as normal.
+			velocity *= 0.2f; // 弾丸の速度を1/5に遅くして、見やすくします。これは、この例が他の例とModItem.SetDefaultsコードを共有しているためだけにあります。独自の武器を作成する場合は、通常どおりItem.shootSpeedを変更してください。
 
 			for (int i = 0; i < numberProjectiles; i++) {
-				Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))); // Watch out for dividing by 0 if there is only 1 projectile.
+				Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))); // 弾丸が1つしかない場合は、0で割らないように注意してください。
 				Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
 			}
 
-			return false; // return false to stop vanilla from calling Projectile.NewProjectile.
+			return false; // バニラがProjectile.NewProjectileを呼び出すのを止めるためにfalseを返します。
 		}*/
 
-		// How can I make the shots appear out of the muzzle exactly?
-		// Also, when I do this, how do I prevent shooting through tiles?
+		// 銃口から正確にショットが出現するようにするにはどうすればよいですか？
+		// また、これを行う場合、タイルを貫通して発射されるのを防ぐにはどうすればよいですか？
 		/*public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
 			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
 
@@ -104,28 +104,28 @@ namespace CorpsMod.Content.Items.Weapons
 			}
 		}*/
 
-		// How can I get a "Clockwork Assault Rifle" effect?
-		// 3 round burst, only consume 1 ammo for burst. Delay between bursts, use reuseDelay
-		// Make the following changes to SetDefaults():
+		// 「クロックワーク・アサルトライフル」のような効果を得るにはどうすればよいですか？
+		// 3点バースト、バーストで消費する弾薬は1つだけ。バースト間の遅延にはreuseDelayを使用します。
+		// SetDefaults()に以下の変更を加えます。
 		/*
 			item.useAnimation = 12;
-			item.useTime = 4; // one third of useAnimation
+			item.useTime = 4; // useAnimationの3分の1
 			item.reuseDelay = 14;
 			item.consumeAmmoOnLastShotOnly = true;
 		*/
 
-		// How can I shoot 2 different projectiles at the same time?
+		// 2種類の異なる弾丸を同時に発射するにはどうすればよいですか？
 		/*public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-			// Here we manually spawn the 2nd projectile, manually specifying the projectile type that we wish to shoot.
+			// ここでは、発射したい弾丸のタイプを手動で指定して、2番目の弾丸を手動でスポーンさせます。
 			Projectile.NewProjectile(source, position, velocity, ProjectileID.GrenadeI, damage, knockback, player.whoAmI);
 
-			// By returning true, the vanilla behavior will take place, which will shoot the 1st projectile, the one determined by the ammo.
+			// trueを返すことで、バニラの動作が実行され、1番目の弾丸（弾薬によって決定されたもの）が発射されます。
 			return true;
 		}*/
 
-		// How can I choose between several projectiles randomly?
+		// いくつかの弾丸の中からランダムに選ぶにはどうすればよいですか？
 		/*public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-			// Here we randomly set type to either the original (as defined by the ammo), a vanilla projectile, or a mod projectile.
+			// ここでは、typeをランダムに、元のもの（弾薬によって定義されたもの）、バニラの弾丸、またはmodの弾丸のいずれかに設定します。
 			type = Main.rand.Next([type, ProjectileID.GoldenBullet, ModContent.ProjectileType<Projectiles.ExampleBullet>()]);
 		}*/
 	}

@@ -8,20 +8,20 @@ namespace CorpsMod.Content.Items.Weapons
 	public class ExampleMinigun : ModItem
 	{
 		public override void SetDefaults() {
-			// Modders can use Item.DefaultToRangedWeapon to quickly set many common properties, such as: useTime, useAnimation, useStyle, autoReuse, DamageType, shoot, shootSpeed, useAmmo, and noMelee.
-			// See ExampleGun.SetDefaults to see comments explaining those properties
+			// ModderはItem.DefaultToRangedWeaponを使用して、useTime、useAnimation、useStyle、autoReuse、DamageType、shoot、shootSpeed、useAmmo、noMeleeなど、多くの一般的なプロパティを素早く設定できます。
+			// これらのプロパティを説明するコメントについては、ExampleGun.SetDefaultsを参照してください。
 			Item.DefaultToRangedWeapon(ProjectileID.PurificationPowder, AmmoID.Bullet, 5, 16f, true);
 
-			// Item.SetWeaponValues can quickly set damage, knockBack, and crit
+			// Item.SetWeaponValuesは、ダメージ、ノックバック、クリティカル率を素早く設定できます。
 			Item.SetWeaponValues(11, 1f);
 
-			Item.width = 54; // Hitbox width of the item.
-			Item.height = 22; // Hitbox height of the item.
-			Item.rare = ItemRarityID.Green; // The color that the item's name will be in-game.
-			Item.UseSound = SoundID.Item11; // The sound that this item plays when used.
+			Item.width = 54; // アイテムの当たり判定の幅。
+			Item.height = 22; // アイテムの当たり判定の高さ。
+			Item.rare = ItemRarityID.Green; // ゲーム内でのアイテム名の色。
+			Item.UseSound = SoundID.Item11; // このアイテムが使用されたときに再生される音。
 		}
 
-		// Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
+		// レシピ作成の詳細については、Content/ExampleRecipes.csを参照してください。
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient<ExampleItem>()
@@ -29,23 +29,23 @@ namespace CorpsMod.Content.Items.Weapons
 				.Register();
 		}
 
-		// The following method gives this gun a 38% chance to not consume ammo
+		// 次のメソッドは、この銃に38%の確率で弾薬を消費しないようにします。
 		public override bool CanConsumeAmmo(Item ammo, Player player) {
 			return Main.rand.NextFloat() >= 0.38f;
 		}
 
-		// The following method allows this gun to shoot when having no ammo, as long as the player has at least 10 example items in their inventory.
-		// The gun will then shoot as if the default ammo for it, in this case the musket ball, is being used.
+		// 次のメソッドは、プレイヤーのインベントリに最低10個のExampleItemがある限り、弾薬がなくてもこの銃が発射できるようにします。
+		// その際、この銃のデフォルトの弾薬（この場合はマスケットボール）が使用されているかのように発射されます。
 		public override bool NeedsAmmo(Player player) {
 			return player.CountItem(ModContent.ItemType<ExampleItem>(), 10) < 10;
 		}
 
-		// The following method makes the gun slightly inaccurate
+		// 次のメソッドは、銃をわずかに不正確にします。
 		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
 			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10));
 		}
 
-		// This method lets you adjust position of the gun in the player's hands. Play with these values until it looks good with your graphics.
+		// このメソッドを使用すると、プレイヤーの手の中での銃の位置を調整できます。グラフィックと合うようにこれらの値を試してみてください。
 		public override Vector2? HoldoutOffset() {
 			return new Vector2(-6f, -2f);
 		}
