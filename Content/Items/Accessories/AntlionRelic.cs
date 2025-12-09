@@ -17,8 +17,8 @@ namespace CorpsMod.Content.Items.Accessories
 		public override void SetStaticDefaults() {
 			// 外見に影響を与えない設定
 			// アクセサリーの視覚的な表示を非表示にする
-			Item.Research.SetCount(1);
-			ItemID.Sets.HiddenAppliesToAllItems[Type] = true;
+			//Item.Research.SetCount(1);
+			//ItemID.Sets.HiddenAppliesToAllItems[Type] = true;
 		}
 
 		//修正: ツールチップに定数値をバインドする

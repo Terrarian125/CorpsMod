@@ -12,7 +12,7 @@ namespace CorpsMod.Common.Systems
 		// ワールドの更新（ゲーム内時間進行）前に呼び出されます
 		public override void PreUpdateWorld() {
 			// 行商NPCの出現/デスポーンロジックを更新
-			ExampleTravelingMerchant.UpdateTravelingMerchant();
+		//	ExampleTravelingMerchant.UpdateTravelingMerchant();
 		}
 
 		// ワールドデータ保存時に呼び出されます
