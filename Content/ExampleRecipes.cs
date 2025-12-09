@@ -173,11 +173,20 @@ namespace CorpsMod.Content
 		public override void PostAddRecipes() {
 			for (int i = 0; i < Recipe.numRecipes; i++) {
 				Recipe recipe = Main.recipe[i];
+				//	// 木材を必要とするすべてのレシピは、100%多く必要になります。
+				//	if (recipe.TryGetIngredient(ItemID.Wood, out Item ingredient)) {
+				//		ingredient.stack *= 2;
+				//	}
 
-				// 木材を必要とするすべてのレシピは、100%多く必要になります。
-				if (recipe.TryGetIngredient(ItemID.Wood, out Item ingredient)) {
-					ingredient.stack *= 2;
-				}
+				//// レシピがかまどを要求しているか確認
+				//// requiredTileリストにかまどのIDが含まれているかチェックします。
+				//if (recipe.requiredTile.Contains(TileID.Furnaces)) {
+				//	// 2. 溶鉱炉がまだ追加されていない場合に追加
+				//	// すでに溶鉱炉が必要なレシピであれば二重に追加する必要はないため、チェックします。
+				//	if (!recipe.requiredTile.Contains(TileID.Hellforge)) {
+
+				//		// 3. Hellforge (溶鉱炉) をクラフトステーションとして追加
+				//		recipe.AddTile(TileID.Hellforge);
 			}
 		}
 	}

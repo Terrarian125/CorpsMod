@@ -161,7 +161,7 @@ namespace CorpsMod.Content.NPCs
 			bool inUndergroundOrCave = spawnInfo.Player.ZoneDirtLayerHeight || spawnInfo.Player.ZoneRockLayerHeight;
 
 			if (inUndergroundOrCave) {
-				return 0.5f;
+				return 0.1f;
 			}
 
 			// それ以外の場合、上記の条件が満たされない場合、Example Bone Merchantはスポーンしません。
