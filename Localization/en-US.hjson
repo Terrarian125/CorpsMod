@@ -204,6 +204,17 @@ NPCs: {
 		}
 
 		Items: {
+
+		AntlionRelic: {
+				DisplayName: アントリオンの秘宝
+				Tooltip: 
+					'''
+					採掘速度が大幅に上昇する
+					受けるダメージを{0}%軽減する
+					近接攻撃速度が{1}%上昇する
+					'''
+			}
+
 			ExampleStaff: {
 				DisplayName: Example Staff
 				Tooltip: This is a modded magic staff weapon

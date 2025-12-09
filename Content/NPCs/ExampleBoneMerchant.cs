@@ -1,6 +1,7 @@
 ﻿using CorpsMod.Content.Dusts;
 using CorpsMod.Content.EmoteBubbles;
 using CorpsMod.Content.Items;
+using CorpsMod.Content.Items.Accessories;
 using CorpsMod.Content.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -235,7 +236,10 @@ namespace CorpsMod.Content.NPCs
 				shop.Add(ItemID.AdamantiteOre);
 			}
 
-			// 登録
+			// Condition.HardmodeActive は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
+			npcShop.Add<AntlionRelic>(Condition.HardmodeActive, Item.buyPrice(gold: 25)); // 例: 25ゴールドで販売
+
+
 			shop.Register();
 		}
 

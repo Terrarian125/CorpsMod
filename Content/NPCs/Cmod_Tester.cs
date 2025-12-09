@@ -141,6 +141,9 @@ namespace CorpsMod.Content.NPCs
 				// 投げやりを1本50銅で販売
 				.Add(ItemID.Javelin);
 
+			// Condition.HardmodeActive は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
+			npcShop.Add<AntlionRelic>(Item.buyPrice(gold: 25)); // 例: 25ゴールドで販売
+
 			npcShop.Register();
 		}
 
