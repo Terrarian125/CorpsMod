@@ -136,14 +136,11 @@ namespace CorpsMod.Content.NPCs
 				.Add(ItemID.Gel)
 
 				// グラディウスを50銀で販売
-				.Add(ItemID.Gladius)
-
+				.AddWithCustomValue(ItemID.Gladius, Item.buyPrice(gold: 2))
 				// 投げやりを1本50銅で販売
-				.Add(ItemID.Javelin);
-
-			// Condition.HardmodeActive は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
-			npcShop.Add<AntlionRelic>(Item.buyPrice(gold: 25)); // 例: 25ゴールドで販売
-
+				.AddWithCustomValue(ItemID.Javelin, Item.buyPrice(copper: 2))
+				// Condition.Hardmode は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
+				.Add<AntlionRelic>(CalamityConditions.Hardmode);
 			npcShop.Register();
 		}
 
