@@ -105,7 +105,7 @@ namespace CorpsMod.Content.NPCs
 
 				case TalkState.Challenge:
 					if (firstButton) {
-						SummonBoss(player, NPCID.KingSlime, "キングスライム");
+						SummonBoss(player, NPCID.TestBoss, "TestBoss");
 						state = TalkState.Normal;
 					}
 					else {
@@ -142,7 +142,7 @@ namespace CorpsMod.Content.NPCs
 				.Add(ItemID.Javelin);
 
 			// Condition.HardmodeActive は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
-			npcShop.Add<AntlionRelic>();
+			npcShop.Add<AntlionRelic>(Item.buyPrice(gold: 25)); // 例: 25ゴールドで販売
 
 			npcShop.Register();
 		}
@@ -173,34 +173,34 @@ namespace CorpsMod.Content.NPCs
 			SoundEngine.PlaySound(SoundID.Thunder, player.Center);
 			Main.NewText($"闘士{bossName}が現れた！", 100, 200, 255);
 
-			////ここから強化処理の追加
-			//// 1. サイズを2倍にする
-			//float scaleMultiplier = 2.0f;
-			//spawnedBoss.scale = scaleMultiplier;
+			//ここから強化処理の追加
+			// 1. サイズを2倍にする
+			float scaleMultiplier = 2.0f;
+			spawnedBoss.scale = scaleMultiplier;
 
-			//// サイズが大きくなることで、接触判定の幅と高さをスケールに合わせて変更
-			//spawnedBoss.width = (int)(spawnedBoss.width * scaleMultiplier);
-			//spawnedBoss.height = (int)(spawnedBoss.height * scaleMultiplier);
+			// サイズが大きくなることで、接触判定の幅と高さをスケールに合わせて変更
+			spawnedBoss.width = (int)(spawnedBoss.width * scaleMultiplier);
+			spawnedBoss.height = (int)(spawnedBoss.height * scaleMultiplier);
 
 
-			//// 2. HPを2倍にする
-			//float hpMultiplier = 2.0f;
-			//spawnedBoss.lifeMax = (int)(spawnedBoss.lifeMax * hpMultiplier);
-			//spawnedBoss.life = spawnedBoss.lifeMax;
+			// 2. HPを2倍にする
+			float hpMultiplier = 2.0f;
+			spawnedBoss.lifeMax = (int)(spawnedBoss.lifeMax * hpMultiplier);
+			spawnedBoss.life = spawnedBoss.lifeMax;
 
-			//// 3. ダメージを半分にする
-			//float damageMultiplier = 0.5f; 
-			//spawnedBoss.damage = (int)(spawnedBoss.damage * damageMultiplier);
+			// 3. ダメージを半分にする
+			float damageMultiplier = 0.5f; 
+			spawnedBoss.damage = (int)(spawnedBoss.damage * damageMultiplier);
 
-			//// 4. 防御力を+10する (既存処理)
-			//int defenseBonus = 10;
-			//spawnedBoss.defense += defenseBonus;
+			// 4. 防御力を+10する (既存処理)
+			int defenseBonus = 10;
+			spawnedBoss.defense += defenseBonus;
 
-			//// 5. 移動速度を1.5倍にする (MaxSpeedを設定)
-			//// King SlimeはAIStyle 1 (Slime) なので、MaxSpeedを調整しても直接的な効果は限定的です。
-			//// しかし、ジャンプの際の最大速度はこれで制御されます。
-			//float speedMultiplier = 1.5f;
-			//spawnedBoss.MaxSpeed *= speedMultiplier;
+			// 5. 移動速度を1.5倍にする (MaxSpeedを設定)
+			// King SlimeはAIStyle 1 (Slime) なので、MaxSpeedを調整しても直接的な効果は限定的です。
+			// しかし、ジャンプの際の最大速度はこれで制御されます。
+			float speedMultiplier = 1.5f;
+			spawnedBoss.MaxSpeed *= speedMultiplier;
 		}
 			//強化処理の追加終了
 		}
