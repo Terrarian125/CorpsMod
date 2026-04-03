@@ -127,21 +127,22 @@ namespace CorpsMod.Content.NPCs
 		}
 
 		public override void AddShops() {
-			var npcShop = new NPCShop(Type, ShopName)
-				.Add(ItemID.Wood)
-				.Add(ItemID.Torch)
-				.Add(ItemID.HealingPotion)
-				.Add(ItemID.Lens)
-				.Add(ItemID.FallenStar)
-				.Add(ItemID.Gel)
+			//var npcShop = new NPCShop(Type, ShopName)
+			NPCShop shop = new(Type);
+				shop.Add(ItemID.Wood)
+					   .Add(ItemID.Torch)
+					   .Add(ItemID.HealingPotion)
+					   .Add(ItemID.Lens)
+					   .Add(ItemID.FallenStar)
+					   .Add(ItemID.Gel)
 
-				// グラディウスを50銀で販売
-				.AddWithCustomValue(ItemID.Gladius, Item.buyPrice(gold: 2))
-				// 投げやりを1本50銅で販売
-				.AddWithCustomValue(ItemID.Javelin, Item.buyPrice(copper: 2))
-				// Condition.Hardmode は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
-				.Add<AntlionRelic>(CalamityConditions.Hardmode);
-			npcShop.Register();
+						// グラディウスを50銀で販売
+					   .AddWithCustomValue(ItemID.Gladius, Item.buyPrice(gold: 2))
+						// 投げやりを1本50銅で販売
+					   .AddWithCustomValue(ItemID.Javelin, Item.buyPrice(copper: 2))
+						// Condition.Hardmode は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
+					   .Add<AntlionRelic>(Conditions.Hardmode)
+			.Register();
 		}
 
 
