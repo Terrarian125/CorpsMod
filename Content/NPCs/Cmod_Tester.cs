@@ -105,9 +105,6 @@ namespace CorpsMod.Content.NPCs
 
 				case TalkState.Challenge:
 					if (firstButton) {
-						// 【ここを修正！】
-						// 間違い：SummonBoss(player, NPCID.TestBoss, "TestBoss");
-						// 正解：
 						//SummonBoss(player, ModContent.NPCType<TestBoss>(), "TestBoss");
 
 						state = TalkState.Normal;
