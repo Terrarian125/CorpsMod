@@ -173,6 +173,8 @@ Mods: {
 				// DeathMessage: Mods.CorpsMod.NPCs.Cmod_Tester.DeathMessage
 				// Upgraded: Mods.CorpsMod.NPCs.Cmod_Tester.Upgraded
 			}
+
+			// TestBoss.DisplayName: Test Boss
 		}
 
 		Tiles: {
