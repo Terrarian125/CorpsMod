@@ -11,7 +11,7 @@ namespace CorpsMod.Content.Items.Weapons
 		public override string Texture => "CorpsMod/Content/Items/Weapons/ExampleSword"; // TODO: remove when sprite is made for this
 
 		public override void SetDefaults() {
-			Item.DamageType = ModContent.GetInstance<ExampleDamageClass>(); // Makes our item use our custom damage type.
+			Item.DamageType = ModContent.GetInstance<ClassLess>(); // Makes our item use our custom damage type.
 			Item.width = 40;
 			Item.height = 40;
 			Item.useStyle = ItemUseStyleID.Swing;

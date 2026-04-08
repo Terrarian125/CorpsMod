@@ -62,7 +62,7 @@ namespace CorpsMod.Content.Items.Accessories
 
 			// GetKnockbackは、GetDamageと機能的に同じですが、代わりにノックバックステータス用です。
 			// このケースでは、カスタムのExample DamageClassに限定してノックバックを100%加算的に追加します（したがって、Exampleクラスの武器のみがこのボーナスを受け取ります）。
-			player.GetKnockback<ExampleDamageClass>() += ExampleKnockback / 100f;
+			player.GetKnockback<ClassLess>() += ExampleKnockback / 100f;
 
 			player.GetModPlayer<ExampleDamageModificationPlayer>().AdditiveCritDamageBonus += AdditiveCritDamageBonus / 100f;
 			// 一部の効果は、この下のExampleStatBonusAccessoryPlayerで適用されます。

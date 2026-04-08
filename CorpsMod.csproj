@@ -11,4 +11,7 @@
     <EmbeddedResource Remove="Old\**" />
     <None Remove="Old\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\CustomRecipes\" />
+  </ItemGroup>
 </Project>

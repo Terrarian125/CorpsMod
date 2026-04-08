@@ -13,7 +13,7 @@ namespace CorpsMod.Common.GlobalItems
 		// Here we add every weapon using the ExampleDamageClass damage class to a single custom sorting group. We also add an existing item, the copper shortsword, to a vanilla sorting group.
 		// These can be interchanged, modded items can go in vanilla sorting groups and vice versa.
 		public override void ModifyResearchSorting(Item item, ref ContentSamples.CreativeHelper.ItemGroup itemGroup) {
-			if (item.DamageType.CountsAsClass<ExampleDamageClass>()) {
+			if (item.DamageType.CountsAsClass<ClassLess>()) {
 				itemGroup = (ContentSamples.CreativeHelper.ItemGroup)531; // This number is where the item sort is in relation to any other sorts added by vanilla or mods; 531 set here is in between the MeleeWeapon and RangedWeapon sorts. To know where your custom group relates to the vanilla sorting numbers, refer to the vanilla ItemGroup class, which you can easily get to by pressing F12 if using Visual Studio.
 			}
 

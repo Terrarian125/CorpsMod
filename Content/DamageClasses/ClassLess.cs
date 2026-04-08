@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CorpsMod.Content.DamageClasses
 {
-	public class ExampleDamageClass : DamageClass
+	public class ClassLess : DamageClass
 	{
 		// This is an example damage class designed to demonstrate all the current functionality of the feature and explain how to create one of your own, should you need one.
 		// For information about how to apply stat bonuses to specific damage classes, please instead refer to CorpsMod/Content/Items/Accessories/ExampleStatBonusAccessory.
@@ -87,8 +87,8 @@ namespace CorpsMod.Content.DamageClasses
 			// Here, we'll make our example damage class have more critical strike chance and armor penetration than normal.
 			// このメソッドを使用すると、サンプルのダメージ クラスのデフォルトの統計修飾子を設定できます。
 			// ここでは、サンプルのダメージ クラスのクリティカル ストライク チャンスとアーマー貫通力を通常よりも高く設定します。
-			player.GetCritChance<ExampleDamageClass>() += 4;
-			player.GetArmorPenetration<ExampleDamageClass>() += 10;
+			player.GetCritChance<ClassLess>() += 4;
+			player.GetArmorPenetration<ClassLess>() += 10;
 			// These sorts of modifiers also exist for damage (GetDamage), knockback (GetKnockback), and attack speed (GetAttackSpeed).
 			// You'll see these used all around in reference to vanilla classes and our example class here. Familiarize yourself with them.
 			// このような修飾子は、ダメージ (GetDamage)、ノックバック (GetKnockback)、攻撃速度 (GetAttackSpeed) にも存在します。
