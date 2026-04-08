@@ -74,87 +74,86 @@ Mods: {
 			LearningExample.DisplayName: Learning Example
 		}
 
-NPCs: {
+		NPCs: {
 			ExampleCustomAISlimeNPC: {
-				DisplayName: ひらひらスライム
-				GotStomped: 踏まれた！
+				DisplayName: Flutter Slime
+				GotStomped: You got stomped
 			}
 
-			# ここでは、翻訳キーにスペースは許可されていません。スペースはすべてアンダースコアに置き換えられます。
-			ExampleTravelingMerchant.DisplayName: サンプル行商
-			ExampleBoneMerchant.DisplayName: 地下鉱石商人
-			ExampleDrawBehindNPC.DisplayName: 描画順サンプルNPC
+			# Here we see that spaces in translation keys are not allowed. Any space will be replaced with an underscore.
+			ExampleTravellingMerchant.DisplayName: Example Traveler
+			ExampleBoneMerchant.DisplayName: Example Bone Merchant
+			ExampleDrawBehindNPC.DisplayName: Example Draw Behind NPC
 
 			ExamplePerson: {
-				DisplayName: サンプル案内人
+				DisplayName: Example Person
 
-				# これはNPCのすべての幸福度レベルで表示されるメッセージです。
+				# This is what displays during all of an NPC's happiness levels.
 				TownNPCMood: {
-					Content: 今のところ、私は結構満足しています。
-					NoHome: どうしても家が欲しいです。カラフルなモンスターたちが怖くて。
-					FarFromHome: 私を家に帰してもらえませんか？
-					LoveSpace: tModLoaderのMod開発ができるスペースがこんなにたくさんあって嬉しいです！
-					DislikeCrowded: 周りに人が多すぎます。Mod作りに集中するのが大変です。
-					HateCrowded: こんなに人がいるとModのテストができません！
-					LoveBiome: 私は{BiomeName}が大好きです。
-					LikeBiome: "{BiomeName}はModのテストをするのにとても良い場所です。"
-					DislikeBiome: {BiomeName}は寒すぎます。凍えそうです！
-					HateBiome: {BiomeName}でモンスターに襲われながらModを作るのはちょっと大変ですね。
-					LoveNPC: {NPCName}は私のことを気に留めていると思いますか？
-					LikeNPC: {NPCName}を、同じ案内人・教育者として尊敬できます！
-					DislikeNPC: '''"{NPCName}は「有料Mod」について延々とまくし立てています...それがどれほどひどいアイデアか説得できるといいのですが。"'''
-					HateNPC: {NPCName}とその爆発物が起こす大きな音が嫌いです！ただ静かに過ごしたいだけなのに。
-					LikeNPC_Princess: "{NPCName}がお姫様？それはすごいですね！"
-					Princess_LovesNPC: "{NPCName}はとても真面目（四角い）ね。そこが好きだわ！"
+					Content: I feel pretty fine right now.
+					NoHome: I would very much like a house, all the colorful monsters scare me.
+					FarFromHome: Could you please get me back to my house?
+					LoveSpace: I love how there is so much space here to code tModLoader mods!
+					DislikeCrowded: There are too many people around, it makes it hard for me to focus on mod making.
+					HateCrowded: I can't test my mod with so many people around!
+					LoveBiome: I love {BiomeName}.
+					LikeBiome: "{BiomeName} is a very nice place to test mods in."
+					DislikeBiome: It's way too cold in {BiomeName}, I'm freezing!
+					HateBiome: It's kind of hard to mod while being attacked by monsters in {BiomeName}.
+					LoveNPC: Do you think {NPCName} notices me?
+					LikeNPC: I can respect {NPCName} as a fellow guide and educator!
+					DislikeNPC: '''"{NPCName} keeps rambling on about "paid mods"... Wish I could convince him how terrible of an idea that is."'''
+					HateNPC: I hate all the loud noises caused by {NPCName} and his explosives! I just want peace and quiet.
+					LikeNPC_Princess: "{NPCName} is a princess? That is so cool!"
+					Princess_LovesNPC: "{NPCName} is so square. I love that about them!"
 				}
 
-				# このキーは「Census」Modが有効なときに生成され、ハウジングUIでNPCの出現条件を確認できるようになります。
-				Census.SpawnCondition: インベントリに{$Items.ExampleItem.DisplayName} [i:CorpsMod/ExampleItem] または {$Items.ExampleBlock.DisplayName} [i:CorpsMod/ExampleBlock] のどちらかを持っている
-				Upgraded: あなたの{$ItemName.HiveBackpack}を{$Mods.CorpsMod.Items.WaspNest.DisplayName}にアップグレードしました
-				DeathMessage: "{0}は消え去りました..."
-				DeathMessageAlt: "{0}は存在の彼方へと薄れていきました..."
+				# This key is generated and used when the "Census" mod is enabled: It allows the user to see the spawn condition of this town NPC in the Housing UI
+				Census.SpawnCondition: Have either an {$Items.ExampleItem.DisplayName} [i:CorpsMod/ExampleItem] or an {$Items.ExampleBlock.DisplayName} [i:CorpsMod/ExampleBlock] in your inventory
+				Upgraded: I upgraded your {$ItemName.HiveBackpack} to a {$Mods.CorpsMod.Items.WaspNest.DisplayName}
+				DeathMessage: "{0} is gone..."
+				DeathMessageAlt: "{0} faded out of existence..."
 			}
 
-			ExampleTravelingMerchant.DisplayName: サンプル行商
-			ExampleWormBody.DisplayName: サンプルワーム
-			ExampleWormHead.DisplayName: サンプルワーム
-			ExampleWormTail.DisplayName: サンプルワーム
-			ExampleZombieThief.DisplayName: サンプルゾンビ泥棒
+			ExampleTravelingMerchant.DisplayName: Example Traveling Merchant
+			ExampleWormBody.DisplayName: Example Worm
+			ExampleWormHead.DisplayName: Example Worm
+			ExampleWormTail.DisplayName: Example Worm
+			ExampleZombieThief.DisplayName: Example Zombie Thief
 
 			MinionBossBody: {
-				DisplayName: ミニオンボス
-				# これはModIntegrationsSystem.csの一部です：プレイヤーにボスの出現方法を知らせる情報
-				BossChecklistIntegration.SpawnInfo: [i:CorpsMod/MinionBossSummonItem]を使用する
-				BossFightName: ミニオンボスとその子分たち
+				DisplayName: Minion Boss
+				# This is part of ModIntegrationsSystem.cs: Information for the player so he knows how to encounter the boss
+				BossChecklistIntegration.SpawnInfo: Use a [i:CorpsMod/MinionBossSummonItem]
+				BossFightName: The Minion Boss and his minions
 			}
 
-			MinionBossMinion.DisplayName: ミニオンボスのミニオン
-			PartyZombie.DisplayName: パーティーゾンビ
-			ExampleCritterNPC.DisplayName: 溶岩カエル
+			MinionBossMinion.DisplayName: Minion Boss Minion
+			PartyZombie.DisplayName: Party Zombie
+			ExampleCritterNPC.DisplayName: Lava Frog
 
 			ExampleTownPet: {
-				DisplayName: サンプル町のペット
-				Census.SpawnCondition: Bestiary（図鑑）を50%埋めた状態で、動物学者から購入できる[i:CorpsMod/ExampleTownPetLicense] サンプル町のペットライセンスを使用する。
+				DisplayName: Example Town Pet
+				Census.SpawnCondition: Use an [i:CorpsMod/ExampleTownPetLicense] Example Town Pet License. Purchased from the Zoologist at 50% Bestiary completetion.
 
 				Names: {
 					Green: {
-						Green: グリーン
-						Jade: ジェイド
-						Lime: ライム
-						Mint: ミント
-						Olive: オリーブ
-						Pine: パイン
+						Green: Green
+						Jade: Jade
+						Lime: Lime
+						Mint: Mint
+						Olive: Olive
+						Pine: Pine
 					}
 				}
 			}
 
 			Cmod_Tester: {
-				Census.SpawnCondition: 出現条件不明
-				
-				# C#コードに合わせた日本語を維持
+				Census.SpawnCondition: Conditions unknown
+
 				TownNPCMood: {
-					Princess_LovesNPC: 私は {NPCName} が 好きだ。
-					LikeNPC_Princess: 私は {NPCName} が 好きだ。
+					Princess_LovesNPC: I like {NPCName}.
+					LikeNPC_Princess: I like {NPCName}.
 					HateNPC: 私は {NPCName} が 大嫌いだ。
 					DislikeNPC: 私は {NPCName} が 嫌いだ。
 					LikeNPC: 私は {NPCName} が 好きだ。
@@ -170,10 +169,12 @@ NPCs: {
 					Content: 私は満足しています。
 				}
 
-				DisplayName: CMOD テスター
+				DisplayName: Cmod_ Tester
 				DeathMessage: Mods.CorpsMod.NPCs.Cmod_Tester.DeathMessage
 				Upgraded: Mods.CorpsMod.NPCs.Cmod_Tester.Upgraded
 			}
+
+			TestBoss.DisplayName: Test Boss
 		}
 
 		Tiles: {
@@ -204,17 +205,6 @@ NPCs: {
 		}
 
 		Items: {
-
-		AntlionRelic: {
-				DisplayName: アントリオンの秘宝
-				Tooltip: 
-					'''
-					採掘速度が大幅に上昇する
-					受けるダメージを{0}%軽減する
-					近接攻撃速度が{1}%上昇する
-					'''
-			}
-
 			ExampleStaff: {
 				DisplayName: Example Staff
 				Tooltip: This is a modded magic staff weapon
@@ -1261,6 +1251,11 @@ NPCs: {
 				DisplayName: Kilt Sword
 				Tooltip: ""
 			}
+
+			AntlionRelic: {
+				DisplayName: Antlion Relic
+				Tooltip: ""
+			}
 		}
 
 		# Projectile display names mainly show in chat when a player dies from it.
@@ -1408,42 +1403,19 @@ NPCs: {
 		RecipeConditions.Night: At Low Health
 		ResourceDisplaySets.ExampleReversedBarsDisplay.DisplayName: Swapped Bars
 
-		//多分図鑑のフレーバーテキスト
-Bestiary: {
-			// 重要: このNPCに関する重要な情報を表示します。
-			ImportantFlavorText: 重要なフレーバーテキスト！
-			
-			// Example Person (ガイド的NPC)
-			ExamplePerson_1: 謎のグレースケールの立方体世界からやってきた案内人。tModLoaderのすべてを理解する手助けをしてくれるだろう。
-			ExamplePerson_2: ブロックでできた体と鋼鉄の腕を持つ。昼夜を問わず鍛錬を欠かさない。
-
-			Cmod_Tester_1: このModの機能をテストするために召喚されたNPC。ショップの管理や、プレイヤーのトレーニングを手伝ってくれる。
-			
-			// Example Bone Merchant (地下鉱石商人)
-			// ※ご自身のMod名に合わせて「Example Bone Merchant」を「地下鉱石商人」として意訳しています。
-			ExampleBoneMerchant_1: 謎めいた地下の商人を作る方法を示すために、地下世界からやってきた。
-			ExampleBoneMerchant_2: 自身の体から生成される接着剤でつなげた鉱石の山を背負っている。
-
-			// Example Town Pet (町のペット)
-			ExampleTownPet: 町にさらなる可愛らしさをもたらす、ブロック状の町のペット。
-			
-			// Party Zombie (パーティーゾンビ)
-			PartyZombie: なぜか紙吹雪をまき散らすのが大好きなゾンビ。それ以外は普通のゾンビと同じように振る舞う。
-			
-			// Minion Boss Body (ミニオンボス本体)
-			MinionBossBody: 召喚アイテムで呼び出される、巨大な目を持つミニオンボス。子分（ミニオン）の扱い、マルチプレイへの配慮、カスタムボスバーの実装例を示す。
-			
-			// Example Critter NPC (クリッターNPC)
-			ExampleCritterNPC: 最も愛らしく、最も良い子で、そしてちょっぴり刺激的な子供。彼に意地悪をしてはいけない！
-			
-			// Example Zombie Thief (ゾンビ泥棒)
-			ExampleZombieThief: このタイプのゾンビは「Example Item」が大好きで、見つけ次第すぐに盗もうとする。
-			
-			// Minion Boss Minion (ミニオンボスのミニオン)
-			MinionBossMinion: ボスをダメージから守るため、自らを犠牲にする子分。すべて倒されるとボスはダメージを受けるようになる。
-			
-			// Example Worm Head (ワームの頭)
-			ExampleWormHead: Diggerが水色のペンキに落ちたみたいだ。まあいい。
+		Bestiary: {
+			ImportantFlavorText: Important Flavor Text!
+			ExamplePerson_1: Hailing from a mysterious greyscale cube world, the Example Person is here to help you understand everything about tModLoader.
+			ExamplePerson_2: Built of blocks with arms of steel. Pumps iron day and night.
+			ExampleBoneMerchant_1: Hailing from a mysterious greyscale cube world, the Example Bone Merchant will show you how to make a mysterious merchant underground with tModLoader.
+			ExampleBoneMerchant_2: Built with bone blocks and arms of steel. Throws bones day and night.
+			ExampleTownPet: A blocky Town Pet to bring extra cuteness to the town.
+			PartyZombie: This type of zombie for some reason really likes to spread confetti around. Otherwise, it behaves just like a normal zombie.
+			MinionBossBody: Example Minion Boss that spawns minions on spawn, summoned with a spawn item. Showcases boss minion handling, multiplayer considerations, and custom boss bar.
+			ExampleCritterNPC: The most adorable goodest spicy child. Do not dare be mean to him!
+			ExampleZombieThief: This type of zombie really like Example Items. They steal them as soon as they find some.
+			MinionBossMinion: A minion protecting his boss from taking damage by sacrificing itself. If none are alive, the boss is exposed to damage.
+			ExampleWormHead: Looks like a Digger fell into some aqua-colored paint. Oh well.
 		}
 
 		Biomes: {
@@ -1481,34 +1453,29 @@ Bestiary: {
 		#This is used to display the NPC's dialogues.
 		Dialogue: {
 			ExamplePerson: {
-				// {0} は、ゲーム内の別のNPC名に置き換えられるプレースホルダーです。
-				PartyGirlDialogue: {0}に、私の家を色で飾り立てるのをやめるように言ってくれないか？
-				
-				StandardDialogue1: 時々、ここにいる誰とも違うような気がするんだ。
-				StandardDialogue2: 君の好きな色は何だい？私の好きな色は白と黒だよ。
-				StandardDialogue3: 何？私には腕も足もないだって？ああ、ばかばかしい！
-				StandardDialogue4: やあ、もし[i:HiveBackpack]を見つけたら、私がそれをアップグレードしてあげられるよ。
-				
-				// 重み付けされたメッセージの例
-				CommonDialogue: このメッセージは重みが5で、他のメッセージよりも5倍頻繁に表示されるよ。
-				RareDialogue: このメッセージは重みが0.1で、他のメッセージよりも10倍珍しく表示されるよ。
-				
-				TalkALot: 暇人と話し続けるのは疲れるものだよ？
+				PartyGirlDialogue: Can you please tell {0} to stop decorating my house with colors?
+				StandardDialogue1: Sometimes I feel like I'm different from everyone else here.
+				StandardDialogue2: What's your favorite color? My favorite colors are white and black.
+				StandardDialogue3: What? I don't have any arms or legs? Oh, don't be ridiculous!
+				StandardDialogue4: Hey, if you find a [i:HiveBackpack], I can upgrade it for you.
+				CommonDialogue: This message has a weight of 5, meaning it appears 5 times more often.
+				RareDialogue: This message has a weight of 0.1, meaning it appears 10 times as rare.
+				TalkALot: I'm getting tired of talking to you. I have to go.
 			}
 
-		ExampleBoneMerchant: {
-				StandardDialogue1: 地下は落ち着くな。
-				StandardDialogue2: 私がここで何をしているかって？さあな、放っておいてくれ！
-				StandardDialogue3: ふむ？何の品があるかって？さあな！
+			ExampleBoneMerchant: {
+				StandardDialogue1: It's relaxing down here in the underground.
+				StandardDialogue2: What am I doing down here you may ask? I'm not sure, but leave me be!
+				StandardDialogue3: Huh? What wares do I have? I have no idea! How about you ask?
 			}
 
 			ExampleTravelingMerchant: {
 				PartyGirlDialogue: Can you please tell {0} to stop decorating my cousin's house with colors?
 				StandardDialogue1: やぁお客さん、見るだけでも歓迎だよ！
-				StandardDialogue2: 僕は飛行船乗りでね、旅をしながら商売してるのさ。
-				StandardDialogue3: この世界でも空賊がいるんだろ？船を見てみたいね。
-				StandardDialogue3: 空が恋しいよ、あの揺れがあるとよく寝れるんだ。
-				KiltSwordDialogue: [i:KiltSword] .
+				StandardDialogue2: 僕は飛行船乗りでね、旅をしながら商売してるのさ
+				StandardDialogue3: 空が恋しいよ、あの揺れがあるとよく寝れるんだ
+				//	KiltSwordDialogue: [i:KiltSword] .
+				HiveBackpackDialogue: Hey, if you find a [i:HiveBackpack], my cousin can upgrade it for you.
 			}
 
 			ExampleTownPet.StandardDialogue: *Example Town Pet noises*
@@ -2004,10 +1971,26 @@ Bestiary: {
 
 			SampleEnum: {
 				Tooltip: ""
-				Weird.Label: Weird
-				Odd.Label: Odd
-				Strange.Label: Strange
-				Peculiar.Label: Peculiar
+
+				Weird: {
+					Label: Weird
+					Tooltip: ""
+				}
+
+				Odd: {
+					Label: Odd
+					Tooltip: ""
+				}
+
+				Strange: {
+					Label: Strange
+					Tooltip: ""
+				}
+
+				Peculiar: {
+					Label: Peculiar
+					Tooltip: ""
+				}
 			}
 
 			ModConfigShowcaseLabels: {
@@ -2162,10 +2145,26 @@ Bestiary: {
 
 			Corner: {
 				Tooltip: ""
-				TopLeft.Label: Top Left
-				TopRight.Label: Top Right
-				BottomLeft.Label: Bottom Left
-				BottomRight.Label: Bottom Right
+
+				TopLeft: {
+					Label: Top Left
+					Tooltip: ""
+				}
+
+				TopRight: {
+					Label: Top Right
+					Tooltip: ""
+				}
+
+				BottomLeft: {
+					Label: Bottom Left
+					Tooltip: ""
+				}
+
+				BottomRight: {
+					Label: Bottom Right
+					Tooltip: ""
+				}
 			}
 
 			ComplexData: {

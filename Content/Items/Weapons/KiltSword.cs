@@ -72,7 +72,7 @@ namespace CorpsMod.Content.Items.Weapons
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddIngredient<ExampleItem>()
-				.AddTile<Tiles.Furniture.ExampleWorkbench>()
+				.AddTile(TileID.WorkBenches)
 				.Register();
 		}
 	}

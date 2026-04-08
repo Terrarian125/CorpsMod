@@ -173,6 +173,8 @@ Mods: {
 				// DeathMessage: Mods.CorpsMod.NPCs.Cmod_Tester.DeathMessage
 				// Upgraded: Mods.CorpsMod.NPCs.Cmod_Tester.Upgraded
 			}
+
+			// TestBoss.DisplayName: Test Boss
 		}
 
 		Tiles: {
@@ -1249,6 +1251,11 @@ Mods: {
 				// DisplayName: Kilt Sword
 				// Tooltip: ""
 			}
+
+			AntlionRelic: {
+				// DisplayName: Antlion Relic
+				// Tooltip: ""
+			}
 		}
 
 		# Projectile display names mainly show in chat when a player dies from it.
@@ -1464,9 +1471,10 @@ Mods: {
 
 			ExampleTravelingMerchant: {
 				// PartyGirlDialogue: Can you please tell {0} to stop decorating my cousin's house with colors?
-				// StandardDialogue1: Sometimes my cousin feels like they're different from everyone else here.
-				// StandardDialogue2: What's your favorite color? My cousin's favorite colors are white and black.
-				// StandardDialogue3: I'm a traveling merchant, and I sell things.
+				// StandardDialogue1: やぁお客さん、見るだけでも歓迎だよ！
+				// StandardDialogue2: 僕は飛行船乗りでね、旅をしながら商売してるのさ
+				// StandardDialogue3: 空が恋しいよ、あの揺れがあるとよく寝れるんだ
+				//	KiltSwordDialogue: [i:KiltSword] .
 				// HiveBackpackDialogue: Hey, if you find a [i:HiveBackpack], my cousin can upgrade it for you.
 			}
 
@@ -1963,10 +1971,26 @@ Mods: {
 
 			SampleEnum: {
 				// Tooltip: ""
-				// Weird.Label: Weird
-				// Odd.Label: Odd
-				// Strange.Label: Strange
-				// Peculiar.Label: Peculiar
+
+				Weird: {
+					// Label: Weird
+					// Tooltip: ""
+				}
+
+				Odd: {
+					// Label: Odd
+					// Tooltip: ""
+				}
+
+				Strange: {
+					// Label: Strange
+					// Tooltip: ""
+				}
+
+				Peculiar: {
+					// Label: Peculiar
+					// Tooltip: ""
+				}
 			}
 
 			ModConfigShowcaseLabels: {
@@ -2121,10 +2145,26 @@ Mods: {
 
 			Corner: {
 				// Tooltip: ""
-				// TopLeft.Label: Top Left
-				// TopRight.Label: Top Right
-				// BottomLeft.Label: Bottom Left
-				// BottomRight.Label: Bottom Right
+
+				TopLeft: {
+					// Label: Top Left
+					// Tooltip: ""
+				}
+
+				TopRight: {
+					// Label: Top Right
+					// Tooltip: ""
+				}
+
+				BottomLeft: {
+					// Label: Bottom Left
+					// Tooltip: ""
+				}
+
+				BottomRight: {
+					// Label: Bottom Right
+					// Tooltip: ""
+				}
 			}
 
 			ComplexData: {

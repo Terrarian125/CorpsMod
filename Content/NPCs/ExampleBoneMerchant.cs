@@ -234,10 +234,8 @@ namespace CorpsMod.Content.NPCs
 				shop.Add(ItemID.CobaltOre);
 				shop.Add(ItemID.MythrilOre);
 				shop.Add(ItemID.AdamantiteOre);
+				//shop.Add(ItemID.AntlionRelic);// アントリオンのレリックを販売
 			}
-
-			// Condition.HardmodeActive は、ワールドがハードモードに入った場合にのみ、このアイテムを表示します。
-			npcShop.Add<AntlionRelic>(Condition.HardmodeActive, Item.buyPrice(gold: 25)); // 例: 25ゴールドで販売
 
 
 			shop.Register();

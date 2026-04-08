@@ -35,7 +35,7 @@ namespace CorpsMod.Content.Items.Weapons
 		public override void AddRecipes() {
 			CreateRecipe()
 													   .AddRecipeGroup(RecipeGroupID.IronBar, 2) // 鉄または鉛インゴット 2個
-													   .AddRecipeGroup(RecipeGroupID.SilverBar, 2) // 銀またはタングステンインゴット 2個
+													  // .AddRecipeGroup(RecipeGroupID.SilverBar, 2) // 銀またはタングステンインゴット 2個
 				.AddTile(TileID.Anvils) // 金床で作る
 				.Register();
 		}
