@@ -14,7 +14,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CorpsMod.Content.NPCs
 {
-	// The ExampleZombieThief is essentially the same as a regular Zombie, but it steals ExampleItems and keep them until it is killed, being saved with the world if it has enough of them.
+	// ExampleZombieThief（ゾンビ泥棒）は、基本的には通常のゾンビと同じですが、ExampleItemを盗み、倒されるまでそれを保持します。十分な量を持っている場合は、ワールドデータと一緒に保存されます。
 	public class ExampleZombieThief : ModNPC
 	{
 		public int StolenItems = 0;
@@ -23,8 +23,8 @@ namespace CorpsMod.Content.NPCs
 			Main.npcFrameCount[Type] = Main.npcFrameCount[NPCID.Zombie];
 
 			NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers() {
-				// Influences how the NPC looks in the Bestiary
-				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+				// 生物図鑑でのNPCの見え方に影響します
+				Velocity = 1f // 生物図鑑内で、X方向に+1マス歩いているかのように描画します
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
 		}
@@ -39,22 +39,22 @@ namespace CorpsMod.Content.NPCs
 			NPC.DeathSound = SoundID.NPCDeath2;
 			NPC.value = 60f;
 			NPC.knockBackResist = 0.5f;
-			NPC.aiStyle = 3; // Fighter AI, important to choose the aiStyle that matches the NPCID that we want to mimic
+			NPC.aiStyle = 3; // ファイターAI。真似したいNPCIDと一致するaiStyleを選ぶことが重要です
 
-			AIType = NPCID.Zombie; // Use vanilla zombie's type when executing AI code. (This also means it will try to despawn during daytime)
-			AnimationType = NPCID.Zombie; // Use vanilla zombie's type when executing animation code. Important to also match Main.npcFrameCount[NPC.type] in SetStaticDefaults.
-			Banner = Item.NPCtoBanner(NPCID.Zombie); // Makes this NPC get affected by the normal zombie banner.
-			BannerItem = Item.BannerToItem(Banner); // Makes kills of this NPC go towards dropping the banner it's associated with.
-			SpawnModBiomes = [ModContent.GetInstance<ExampleSurfaceBiome>().Type]; // Associates this NPC with the ExampleSurfaceBiome in Bestiary
+			AIType = NPCID.Zombie; // AIコードを実行する際、バニラのゾンビのタイプを使用します（これは昼間にデスポーンしようとすることも意味します）
+			AnimationType = NPCID.Zombie; // アニメーションコードを実行する際、バニラのゾンビのタイプを使用します。SetStaticDefaultsでMain.npcFrameCount[NPC.type]を合わせることも重要です。
+			Banner = Item.NPCtoBanner(NPCID.Zombie); // このNPCが通常のゾンビバナー（旗）の効果を受けるようにします。
+			BannerItem = Item.BannerToItem(Banner); // このNPCを倒した際に、関連付けられたバナーがドロップするようにします。
+			SpawnModBiomes = [ModContent.GetInstance<ExampleSurfaceBiome>().Type]; // 生物図鑑でこのNPCをExampleSurfaceBiomeに関連付けます
 		}
 
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
-			// We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+			// AddRangeを使用することで、一度に複数の項目をまとめて追加できます
 			bestiaryEntry.Info.AddRange([
-				// Sets the spawning conditions of this NPC that is listed in the bestiary.
+				// 生物図鑑に表示される、このNPCの出現条件（時間帯）を設定します。
 				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
-				// Sets the description of this NPC that is listed in the bestiary.
+				// 生物図鑑に表示される、このNPCの説明文（フレーバーテキスト）を設定します。
 				new FlavorTextBestiaryInfoElement("Mods.CorpsMod.Bestiary.ExampleZombieThief"),
 			]);
 		}
@@ -66,14 +66,14 @@ namespace CorpsMod.Content.NPCs
 
 			Rectangle hitbox = NPC.Hitbox;
 			foreach (Item item in Main.item) {
-				// Pickup the items only if the NPC touches them and they aren't already being grabbed by a player
+				// NPCがアイテムに触れており、かつそのアイテムがまだプレイヤーに引き寄せられていない（拾われていない）場合のみ、アイテムを拾います
 				if (item.active && !item.beingGrabbed && item.type == ModContent.ItemType<ExampleItem>() && hitbox.Intersects(item.Hitbox)) {
 					item.active = false;
 					StolenItems += item.stack;
 
 					NetMessage.SendData(MessageID.SyncItem, number: item.whoAmI);
 
-					// Show emote when stealing an example item
+					// ExampleItemを盗んだ時にエモート（感情アイコン）を表示します
 					EmoteBubble.NewBubble(ModContent.EmoteBubbleType<ExampleItemEmote>(), new WorldUIAnchor(NPC), 90);
 				}
 			}
@@ -88,13 +88,13 @@ namespace CorpsMod.Content.NPCs
 		}
 
 		public override void OnKill() {
-			if (Main.netMode == NetmodeID.MultiplayerClient) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				return;
 			}
 
-			// Drop all the stolen items when the NPC dies
+			// NPCが死亡した際、盗まれたアイテムをすべてドロップします
 			while (StolenItems > 0) {
-				// Loop until all items are dropped, to avoid dropping more than maxStack items
+				// 一度にmaxStack（最大スタック数）以上のアイテムをドロップするのを防ぐため、すべてのアイテムがドロップされるまでループします
 				int droppedAmount = Math.Min(ModContent.GetInstance<ExampleItem>().Item.maxStack, StolenItems);
 				StolenItems -= droppedAmount;
 				Item.NewItem(NPC.GetSource_Death(), NPC.Center, ModContent.ItemType<ExampleItem>(), droppedAmount, true);
@@ -102,21 +102,21 @@ namespace CorpsMod.Content.NPCs
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-			// Can only spawn in the ExampleSurfaceBiome and if there are no other ExampleZombieThiefs
+			// ExampleSurfaceBiomeにプレイヤーがいて、かつ他にExampleZombieThiefが存在しない場合のみスポーンできます
 			if (spawnInfo.Player.InModBiome(ModContent.GetInstance<ExampleSurfaceBiome>()) && !NPC.AnyNPCs(Type)) {
-				return SpawnCondition.OverworldNightMonster.Chance * 0.1f; // Spawn with 1/10th the chance of a regular zombie.
+				return SpawnCondition.OverworldNightMonster.Chance * 0.1f; // 通常のゾンビの1/10の確率でスポーンします。
 			}
 
 			return 0f;
 		}
 
 		public override bool NeedSaving() {
-			return StolenItems >= 10; // Only save if the NPC has more than 10 stolen items, to avoid keeping the NPC in memory if it only has few
+			return StolenItems >= 10; // アイテムを少数しか持っていないNPCをメモリに保持し続けるのを避けるため、10個以上盗んでいる場合のみ保存します
 		}
 
 		public override void SaveData(TagCompound tag) {
 			if (StolenItems > 0) {
-				// Note that at this point it may have less than 10 stolen items, if another mod or part of our decides to save the NPC
+				// 他のModやシステムがこのNPCを保存すると決定した場合、この時点で盗んだアイテムが10個未満である可能性もあります
 				tag["StolenItems"] = StolenItems;
 			}
 		}
